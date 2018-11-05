@@ -34,7 +34,7 @@
     },
     computed: {
       ...mapState([]),
-      ...mapGetters(['get_nodes_and_edges']),
+      ...mapGetters(['get_nodes_and_edges', 'get_options']),
       sizeProps() {
         return {
           width: `${this.$props.width}`,
@@ -56,10 +56,8 @@
         if (this.network !== null) {
           this.network.destroy();
         }
-        this.network = null;
         const container = this.$refs.graph;
-        const options = {};
-        this.network = new Vis.Network(container, newGraph, options);
+        this.network = new Vis.Network(container, newGraph, this.get_options);
         this.events.forEach(ev =>
           this.network.on(ev, props => console.log(props))
         );
@@ -69,14 +67,6 @@
 </script> 
 
 <style>
-  #app {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: #2c3e50;
-    margin-top: 60px;
-  }
   #graph {
     background-color: gainsboro;
   }
