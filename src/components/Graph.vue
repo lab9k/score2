@@ -1,93 +1,89 @@
 <template>
-  <div class="container">
-    <button @click="buttonClicked">refs</button>
-    <div id="graph" ref="graph" v-bind:style="sizeProps"></div>
+  <div class='container'>
+    <div id='graph' ref='graph' v-bind:style='sizeProps'></div>
+    <button @click="buttonClicked">click me!</button>
   </div>
 </template>
  
 <script>
-import { mapState, mapGetters } from "vuex";
-import types from "../store/types";
-import Vis from "vis";
+  import { mapState, mapGetters } from 'vuex';
+  import types from '../store/types';
+  import Vis from 'vis';
 
-export default {
-  name: "Graph",
-  data() {
-    return {};
-  },
-  props: {
-    width: {
-      type: Number,
-      default: function() {
-        return 600;
+  export default {
+    name: 'Graph',
+    data() {
+      return {
+        events: ['selectNode', 'selectEdge', 'deselectNode', 'deselectEdge'],
+        network: null
+      };
+    },
+    props: {
+      width: {
+        type: String,
+        default: function() {
+          return '100vw';
+        }
+      },
+      height: {
+        type: String,
+        default: function() {
+          return '100vh';
+        }
       }
     },
-    height: {
-      type: Number,
-      default: function() {
-        return 400;
+    computed: {
+      ...mapState([]),
+      ...mapGetters(['get_nodes_and_edges']),
+      sizeProps() {
+        return {
+          width: `${this.$props.width}`,
+          height: `${this.$props.height}`
+        };
+      }
+    },
+    created() {},
+    mounted() {
+      this.$store.dispatch(types.FETCH_SPREADSHEET_DATA);
+    },
+    methods: {
+      buttonClicked() {
+        this.$store.dispatch(types.FETCH_SPREADSHEET_DATA);
+      }
+    },
+    watch: {
+      get_nodes_and_edges: function(newGraph /* , oldGraph*/) {
+        if (this.network !== null) {
+          this.network.destroy();
+        }
+        this.network = null;
+        const container = this.$refs.graph;
+        const options = {};
+        this.network = new Vis.Network(container, newGraph, options);
+        this.events.forEach(ev =>
+          this.network.on(ev, props => console.log(props))
+        );
       }
     }
-  },
-  computed: {
-    ...mapState([]),
-    ...mapGetters([]),
-    sizeProps() {
-      return {
-        width: `${this.$props.width}px`,
-        height: `${this.$props.height}px`
-      };
-    }
-  },
-  mounted() {
-    const nodes = new Vis.DataSet([
-      { id: 1, label: "Node 1" },
-      { id: 2, label: "Node 2" },
-      { id: 3, label: "Node 3" },
-      { id: 4, label: "Node 4" },
-      { id: 5, label: "Node 5" }
-    ]);
-    // create an array with edges
-    const edges = new Vis.DataSet([
-      { from: 1, to: 3 },
-      { from: 1, to: 2 },
-      { from: 2, to: 4 },
-      { from: 2, to: 5 }
-    ]);
-    // create a network
-    const container = this.$refs["graph"];
-    // provide the data in the vis format
-    var data = {
-      nodes: nodes,
-      edges: edges
-    };
-    var options = {};
-    new Vis.Network(container, data, options);
-  },
-  methods: {
-    buttonClicked() {
-      this.$store.dispatch(types.FETCH_SPREADSHEET_DATA);
-    }
-  }
-};
+  };
 </script> 
 
 <style>
-#app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-#graph {
-  background-color: gainsboro;
-}
-.container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
+  #app {
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+    margin-top: 60px;
+  }
+  #graph {
+    background-color: gainsboro;
+  }
+  .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 </style>
