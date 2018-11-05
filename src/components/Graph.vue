@@ -1,20 +1,21 @@
 <template>
-  <div id="app">
-    <img 
-      alt="Vue logo" 
-      src="./assets/logo.png" 
-    />
-    <Graph />
-  </div>
+  <p>graph</p> 
 </template>
-
+ 
 <script>
-import Graph from "./components/Graph";
+import { mapState, mapGetters } from "vuex";
+
 export default {
-  name: "App",
-  components: {
-    Graph
-  }
+  name: "Graph",
+  data() {
+    return {};
+  },
+  computed: {
+    ...mapState([]),
+    ...mapGetters([])
+  },
+  mounted() {},
+  methods: {}
 };
 </script> 
 
