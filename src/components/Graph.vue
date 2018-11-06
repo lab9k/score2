@@ -1,7 +1,7 @@
 <template>
   <div class='container'>
     <div id='graph' ref='graph' v-bind:style='sizeProps'></div>
-    <button @click="buttonClicked">click me!</button>
+    <v-btn color="warning" @click="buttonClicked">Reload</v-btn>
   </div>
 </template>
  
@@ -22,7 +22,7 @@
       width: {
         type: String,
         default: function() {
-          return '100vw';
+          return '100%';
         }
       },
       height: {
@@ -38,7 +38,8 @@
       sizeProps() {
         return {
           width: `${this.$props.width}`,
-          height: `${this.$props.height}`
+          height: `${this.$props.height}`,
+          'min-height': `${this.$props.height}`
         };
       }
     },
@@ -52,7 +53,7 @@
       }
     },
     watch: {
-      get_nodes_and_edges: function(newGraph /* , oldGraph*/) {
+      get_nodes_and_edges: function(newGraph) {
         if (this.network !== null) {
           this.network.destroy();
         }
@@ -68,9 +69,10 @@
 
 <style>
   #graph {
-    background-color: gainsboro;
+    background-color: #fefefe;
   }
   .container {
+    width: 60%;
     display: flex;
     flex-direction: column;
     justify-content: center;

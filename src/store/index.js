@@ -12,7 +12,7 @@ export default new Vuex.Store({
       nodes: [],
       edges: []
     },
-    focus: '',
+    focus: 'topics',
     cities: [],
     options: {
       autoResize: true,
@@ -21,7 +21,8 @@ export default new Vuex.Store({
       nodes: {
         shape: 'circle'
       }
-    }
+    },
+    raw_data: {}
   },
   mutations,
   actions,
