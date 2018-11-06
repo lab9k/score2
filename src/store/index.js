@@ -22,7 +22,9 @@ export default new Vuex.Store({
         shape: 'circle'
       }
     },
-    raw_data: {}
+    raw_data: {},
+    btnText: 'Reload',
+    selected_topic: {}
   },
   mutations,
   actions,

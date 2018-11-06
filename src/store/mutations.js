@@ -1,5 +1,6 @@
 import {
   uniqBy,
+  uniq,
   union,
   flatMap,
   map,
@@ -9,7 +10,8 @@ import {
   forEach,
   times,
   includes,
-  find
+  find,
+  concat
 } from 'lodash';
 
 const extractData = arr => {
@@ -35,6 +37,27 @@ const extractData = arr => {
     };
     return ret;
   });
+};
+
+const cityProto = {
+  type: 'city',
+  color: 'rgba(120,32,14,1)',
+  font: {
+    color: 'white'
+  }
+};
+
+const keywordProto = {
+  type: 'keywords',
+  color: 'rgba(227, 227, 32, 1)'
+};
+
+const challengeProto = {
+  type: 'challenge',
+  color: 'rgba(132, 75, 190, 1)',
+  font: {
+    color: 'white'
+  }
 };
 
 const extractCities = arr => {
@@ -75,14 +98,7 @@ const extractNodes = state => {
     label: val,
     type: state.focus
   }));
-  const cities = state.cities.map(val => ({
-    label: val,
-    type: 'city',
-    color: 'rgba(120,32,14,1)',
-    font: {
-      color: 'white'
-    }
-  }));
+  const cities = state.cities.map(val => ({ label: val, ...cityProto }));
   let count = 0;
   return flatMap([extras, cities], val =>
     map(val, v => ({ ...v, id: ++count }))
@@ -106,7 +122,7 @@ export default {
 
     const nodes = extractNodes(state);
     const edges = extractEdges(nodes, raw_data);
-    state.graph = { nodes, edges: edges };
+    state.graph = { nodes, edges };
   },
 
   handle_click(state, { nodes }) {
@@ -114,9 +130,67 @@ export default {
       state.graph.nodes,
       n => n.id === nodes[0] && n.type === 'topics'
     );
-    console.log(clickedNode);
     if (clickedNode) {
-      console.log(clickedNode);
+      state.btnText = 'back';
+      state.selected_topic = { ...clickedNode };
+
+      // TODO: create all nodes (collect cities, challenges and keywords)
+
+      // !show all cities
+      const cities = map(state.cities, name => ({ label: name, ...cityProto }));
+      // !filter challenges on the selected topic
+
+      const challenges = filter(
+        flatMap(cities, city => state.raw_data[city.label]),
+        ch => includes(ch.topics, state.selected_topic.label)
+      );
+
+      const challengeNodes = map(challenges, ch => ({
+        label: ch.title,
+        city: ch.city,
+        ...challengeProto
+      }));
+
+      const keywords = map(uniq(flatMap(challenges, ch => ch.keywords)), k => ({
+        label: k,
+        ...keywordProto
+      }));
+      let count = 0;
+      const nodes = map(concat(challengeNodes, cities, keywords), val => ({
+        ...val,
+        id: ++count
+      }));
+      // TODO: create the edges
+
+      const challenge_to_city = map(
+        filter(nodes, n => n.type === 'challenge'),
+        chn => ({
+          from: chn.id,
+          to: find(nodes, n => n.label === chn.city).id
+        })
+      );
+
+      const challenge_to_keyword = flatMap(
+        filter(nodes, n => n.type === 'challenge'),
+        ch => {
+          const { keywords } = find(
+            state.raw_data[ch.city],
+            c => c.title === ch.label
+          );
+          return map(keywords, k => ({
+            from: find(nodes, no => no.label === k).id,
+            to: ch.id
+          }));
+        }
+      );
+      console.log(challenge_to_keyword);
+
+      const edges = concat(challenge_to_city, challenge_to_keyword);
+
+      state.graph = { nodes, edges };
     }
+  },
+  reset_button(state) {
+    state.btnText = 'reload';
   }
 };

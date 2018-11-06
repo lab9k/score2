@@ -1,7 +1,7 @@
 <template>
   <div class='container'>
     <div id='graph' ref='graph' v-bind:style='sizeProps'></div>
-    <v-btn color="warning" @click="buttonClicked">Reload</v-btn>
+    <v-btn color="warning" @click="reload">{{btnText}}</v-btn>
   </div>
 </template>
  
@@ -14,13 +14,7 @@
     name: 'Graph',
     data() {
       return {
-        events: [
-          'selectNode',
-          'selectEdge',
-          'deselectNode',
-          'deselectEdge',
-          'doubleClick'
-        ],
+        events: ['doubleClick'],
         network: null
       };
     },
@@ -34,13 +28,13 @@
       height: {
         type: String,
         default: function() {
-          return '100vh';
+          return '90vh';
         }
       }
     },
     computed: {
       ...mapState([]),
-      ...mapGetters(['get_nodes_and_edges', 'get_options']),
+      ...mapGetters(['get_nodes_and_edges', 'get_options', 'btnText']),
       sizeProps() {
         return {
           width: `${this.$props.width}`,
@@ -54,7 +48,7 @@
       this.$store.dispatch(types.FETCH_SPREADSHEET_DATA);
     },
     methods: {
-      buttonClicked() {
+      reload() {
         this.$store.dispatch(types.FETCH_SPREADSHEET_DATA);
       },
       handle_event(ev, props) {

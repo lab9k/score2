@@ -2,5 +2,6 @@ export default {
   get_nodes_and_edges({ graph }) {
     return graph;
   },
-  get_options: ({ options }) => options
+  get_options: ({ options }) => options,
+  btnText: ({ btnText }) => btnText
 };
