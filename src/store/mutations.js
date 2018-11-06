@@ -108,14 +108,15 @@ export default {
     const edges = extractEdges(nodes, raw_data);
     state.graph = { nodes, edges: edges };
   },
-  change_focus(state, focus) {
-    state.focus = focus;
-  },
+
   handle_click(state, { nodes }) {
     const clickedNode = find(
       state.graph.nodes,
       n => n.id === nodes[0] && n.type === 'topics'
     );
     console.log(clickedNode);
+    if (clickedNode) {
+      console.log(clickedNode);
+    }
   }
 };
