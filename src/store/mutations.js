@@ -8,7 +8,8 @@ import {
   partition,
   forEach,
   times,
-  includes
+  includes,
+  find
 } from 'lodash';
 
 const extractData = arr => {
@@ -74,7 +75,14 @@ const extractNodes = state => {
     label: val,
     type: state.focus
   }));
-  const cities = state.cities.map(val => ({ label: val, type: 'city' }));
+  const cities = state.cities.map(val => ({
+    label: val,
+    type: 'city',
+    color: 'rgba(120,32,14,1)',
+    font: {
+      color: 'white'
+    }
+  }));
   let count = 0;
   return flatMap([extras, cities], val =>
     map(val, v => ({ ...v, id: ++count }))
@@ -102,5 +110,12 @@ export default {
   },
   change_focus(state, focus) {
     state.focus = focus;
+  },
+  handle_click(state, { nodes }) {
+    const clickedNode = find(
+      state.graph.nodes,
+      n => n.id === nodes[0] && n.type === 'topics'
+    );
+    console.log(clickedNode);
   }
 };

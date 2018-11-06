@@ -14,7 +14,13 @@
     name: 'Graph',
     data() {
       return {
-        events: ['selectNode', 'selectEdge', 'deselectNode', 'deselectEdge'],
+        events: [
+          'selectNode',
+          'selectEdge',
+          'deselectNode',
+          'deselectEdge',
+          'doubleClick'
+        ],
         network: null
       };
     },
@@ -50,6 +56,15 @@
     methods: {
       buttonClicked() {
         this.$store.dispatch(types.FETCH_SPREADSHEET_DATA);
+      },
+      handle_event(ev, props) {
+        switch (ev) {
+          case 'doubleClick':
+            this.$store.commit(types.HANDLE_CLICK, props);
+            break;
+          default:
+            return;
+        }
       }
     },
     watch: {
@@ -60,7 +75,7 @@
         const container = this.$refs.graph;
         this.network = new Vis.Network(container, newGraph, this.get_options);
         this.events.forEach(ev =>
-          this.network.on(ev, props => console.log(props))
+          this.network.on(ev, props => this.handle_event(ev, props))
         );
       }
     }
