@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import mutations from './mutations';
+import mutations, { legendNodes } from './mutations';
 import actions from './actions';
 import getters from './getters';
 
@@ -28,3 +28,5 @@ export default new Vuex.Store({
   actions,
   getters
 });
+
+export const legend = legendNodes;

@@ -13,7 +13,6 @@ import {
   find,
   concat
 } from 'lodash';
-
 const extractData = arr => {
   let count = 0;
   return arr.entry.map(entry => {
@@ -68,6 +67,45 @@ const topicProto = {
   type: 'topics',
   color: 'rgba(255, 107, 101, 1)'
 };
+
+export const legendNodes = [
+  {
+    ...cityProto,
+    fixed: true,
+    physics: false,
+    size: 25,
+    x: 25,
+    y: 0,
+    label: 'city'
+  },
+  {
+    ...keywordProto,
+    fixed: true,
+    physics: false,
+    size: 25,
+    x: 25,
+    y: 50,
+    label: 'keyword'
+  },
+  {
+    ...challengeProto,
+    fixed: true,
+    physics: false,
+    size: 25,
+    x: 25,
+    y: 100,
+    label: 'challenge'
+  },
+  {
+    ...topicProto,
+    fixed: true,
+    physics: false,
+    size: 25,
+    x: 25,
+    y: 150,
+    label: 'topic'
+  }
+];
 
 const extractCities = arr => {
   return uniqBy(arr, 'city')
@@ -194,7 +232,6 @@ export default {
           }));
         }
       );
-      console.log(challenge_to_keyword);
 
       const edges = concat(challenge_to_city, challenge_to_keyword);
 

@@ -17,8 +17,9 @@
 <script>
   import { mapState, mapGetters } from 'vuex';
   import types from '../store/types';
+  import { legend } from '../store';
   // import CitySelection from './CitySelection';
-  import Vis from 'vis';
+  import { Network } from 'vis';
 
   export default {
     name: 'Graph',
@@ -34,7 +35,7 @@
       width: {
         type: String,
         default: function() {
-          return '100%';
+          return '100vw';
         }
       },
       height: {
@@ -82,7 +83,15 @@
           this.network.destroy();
         }
         const container = this.$refs.graph;
-        this.network = new Vis.Network(container, newGraph, this.get_options);
+        const x = -container.clientWidth / 2 - 50;
+        let y = -container.clientHeight / 2 - 50;
+        const legend_positioned = legend.map(n => {
+          const node = { ...n, x, y };
+          y += 75;
+          return node;
+        });
+        newGraph.nodes.push(...legend_positioned);
+        this.network = new Network(container, newGraph, this.get_options);
         this.events.forEach(ev =>
           this.network.on(ev, props => this.handle_event(ev, props))
         );
