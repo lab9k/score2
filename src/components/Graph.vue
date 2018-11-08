@@ -1,6 +1,9 @@
 <template>
   <div class='container'>
     <!-- <CitySelection /> -->
+    <div class="topic" v-if="topic !== ''">
+      <h3 class="text-xs-center">Current topic: <span>{{topic}}</span></h3>
+    </div>
     <div id='graph' ref='graph' v-bind:style='sizeProps'></div>
     <v-btn color="warning" @click="reload">{{btnText}}</v-btn>
     <v-dialog v-model="dialog" hide-overlay persistent width="300">
@@ -41,13 +44,13 @@
       height: {
         type: String,
         default: function() {
-          return '90vh';
+          return '75vh';
         }
       }
     },
     computed: {
       ...mapState([]),
-      ...mapGetters(['get_nodes_and_edges', 'get_options', 'btnText']),
+      ...mapGetters(['get_nodes_and_edges', 'get_options', 'btnText', 'topic']),
       sizeProps() {
         return {
           width: `${this.$props.width}`,
@@ -64,6 +67,7 @@
     methods: {
       reload() {
         this.dialog = true;
+        this.$store.state.topic = '';
         this.$store.dispatch(types.FETCH_SPREADSHEET_DATA);
       },
       handle_event(ev, props) {

@@ -47,25 +47,25 @@ const commonProto = {
 const cityProto = {
   ...commonProto,
   type: 'city',
-  color: 'rgba(178,114,112,1)'
+  color: 'rgba(6,133,135,1)'
 };
 
 const keywordProto = {
   ...commonProto,
   type: 'keywords',
-  color: 'rgba(249, 255, 127, 1)'
+  color: 'rgba(79, 185, 159, 1)'
 };
 
 const challengeProto = {
   ...commonProto,
   type: 'challenge',
-  color: 'rgba(61, 139, 204, 1)'
+  color: 'rgba(242, 177, 52, 1)'
 };
 
 const topicProto = {
   ...commonProto,
   type: 'topics',
-  color: 'rgba(255, 107, 101, 1)'
+  color: 'rgba(237, 85, 59, 1)'
 };
 
 export const legendNodes = [
@@ -182,6 +182,7 @@ export default {
     if (clickedNode) {
       state.btnText = 'back';
       state.selected_topic = { ...clickedNode };
+      state.topic = state.selected_topic.label;
 
       // TODO: create all nodes (collect cities, challenges and keywords)
 

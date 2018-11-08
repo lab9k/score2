@@ -5,5 +5,6 @@ export default {
   get_options: ({ options }) => options,
   btnText: ({ btnText }) => btnText,
   cities: ({ cities }) => cities,
-  selected_cities: ({ selected_cities }) => selected_cities
+  selected_cities: ({ selected_cities }) => selected_cities,
+  topic: ({ topic }) => topic
 };
