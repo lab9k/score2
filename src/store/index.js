@@ -17,14 +17,12 @@ export default new Vuex.Store({
     options: {
       autoResize: true,
       height: '100%',
-      width: '100%',
-      nodes: {
-        shape: 'circle'
-      }
+      width: '100%'
     },
     raw_data: {},
     btnText: 'Reload',
-    selected_topic: {}
+    selected_topic: {},
+    selected_cities: []
   },
   mutations,
   actions,

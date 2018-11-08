@@ -3,5 +3,7 @@ export default {
     return graph;
   },
   get_options: ({ options }) => options,
-  btnText: ({ btnText }) => btnText
+  btnText: ({ btnText }) => btnText,
+  cities: ({ cities }) => cities,
+  selected_cities: ({ selected_cities }) => selected_cities
 };

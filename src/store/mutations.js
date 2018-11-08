@@ -39,25 +39,34 @@ const extractData = arr => {
   });
 };
 
+const commonProto = {
+  shape: 'hexagon',
+  mass: 2,
+  fixed: false
+};
+
 const cityProto = {
+  ...commonProto,
   type: 'city',
-  color: 'rgba(120,32,14,1)',
-  font: {
-    color: 'white'
-  }
+  color: 'rgba(178,114,112,1)'
 };
 
 const keywordProto = {
+  ...commonProto,
   type: 'keywords',
-  color: 'rgba(227, 227, 32, 1)'
+  color: 'rgba(249, 255, 127, 1)'
 };
 
 const challengeProto = {
+  ...commonProto,
   type: 'challenge',
-  color: 'rgba(132, 75, 190, 1)',
-  font: {
-    color: 'white'
-  }
+  color: 'rgba(61, 139, 204, 1)'
+};
+
+const topicProto = {
+  ...commonProto,
+  type: 'topics',
+  color: 'rgba(255, 107, 101, 1)'
 };
 
 const extractCities = arr => {
@@ -95,6 +104,7 @@ const extractEdges = (nodes, data) => {
 
 const extractNodes = state => {
   const extras = state[state.focus].map(val => ({
+    ...topicProto,
     label: val,
     type: state.focus
   }));
@@ -116,7 +126,8 @@ export default {
 
     const raw_data = groupBy(filter(visData, d => d.city !== ''), 'city');
     state.raw_data = raw_data;
-    state.cities = cities;
+    state.cities = cities.sort();
+    state.selected_cities = cities.sort();
     state.keywords = keywords;
     state.topics = topics;
 
@@ -192,5 +203,12 @@ export default {
   },
   reset_button(state) {
     state.btnText = 'reload';
+  },
+  select_city({ selected_cities }, name) {
+    if (find(selected_cities, name)) {
+      selected_cities = filter(selected_cities, s => s === name);
+    } else {
+      selected_cities = [...selected_cities, name];
+    }
   }
 };
