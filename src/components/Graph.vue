@@ -29,7 +29,7 @@
     // components: { CitySelection },
     data() {
       return {
-        events: ['doubleClick'],
+        events: ['doubleClick', 'selectNode'],
         network: null,
         dialog: false
       };
@@ -69,6 +69,13 @@
             this.dialog = true;
             this.$store.commit(types.HANDLE_CLICK, props);
             break;
+          case 'selectNode':
+            //? current scale = Math.round(this.network.getScale()*10)/10
+            this.network.focus(props.nodes[0], {
+              animation: { duration: 800, easingFunction: 'easeInCubic' },
+              scale: 1.3
+            });
+            break;
           default:
             return;
         }
@@ -84,8 +91,8 @@
         let y = -container.clientHeight / 2 - 50;
         const legend_positioned = legend.map(n => {
           const { font: f } = n;
-          const node = { ...n, x, y, font: { ...f, vadjust: -20 } };
-          y += 100;
+          const node = { ...n, x, y, font: { ...f, vadjust: -15 } };
+          y += 80;
           return node;
         });
 
@@ -99,9 +106,9 @@
         );
 
         this.network.on('afterDrawing', () => (this.dialog = false));
-        // this.network.on('stabilizationIterationsDone', () => {
-        //   this.network.setOptions({ physics: false });
-        // });
+        this.network.on('stabilizationIterationsDone', () => {
+          this.network.setOptions({ physics: false });
+        });
       }
     }
   };

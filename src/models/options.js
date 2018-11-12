@@ -3,7 +3,7 @@ const commonProto = {
   mass: 3,
   fixed: false,
   font: {
-    size: 24
+    size: 18
   }
 };
 
