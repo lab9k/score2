@@ -1,11 +1,11 @@
 <template>
-  <div class='container'>
+  <div class='explorerContainer'>
     <!-- <CitySelection /> -->
-    <div class="topic" v-if="topic !== ''">
+    <div id="topic" v-if="topic !== ''">
       <h3 class="text-xs-center">Current topic: <span>{{topic}}</span></h3>
     </div>
-    <div id='graph' ref='graph' v-bind:style='sizeProps'></div>
-    <v-btn color="warning" @click="reload">{{btnText}}</v-btn>
+    <div id='graph' ref='graph'></div>
+    <v-btn id="reloadBtn" color="warning" @click="reload">{{btnText}}</v-btn>
     <v-dialog v-model="dialog" hide-overlay persistent width="300">
       <v-card color="primary" dark>
         <v-card-text>
@@ -38,26 +38,19 @@
       width: {
         type: String,
         default: function() {
-          return '100vw';
+          return '100%';
         }
       },
       height: {
         type: String,
         default: function() {
-          return '75vh';
+          return '100%';
         }
       }
     },
     computed: {
       ...mapState([]),
-      ...mapGetters(['get_nodes_and_edges', 'get_options', 'btnText', 'topic']),
-      sizeProps() {
-        return {
-          width: `${this.$props.width}`,
-          height: `${this.$props.height}`,
-          'min-height': `${this.$props.height}`
-        };
-      }
+      ...mapGetters(['get_nodes_and_edges', 'get_options', 'btnText', 'topic'])
     },
     created() {},
     mounted() {
@@ -90,31 +83,49 @@
         const x = -container.clientWidth / 2 - 50;
         let y = -container.clientHeight / 2 - 50;
         const legend_positioned = legend.map(n => {
-          const node = { ...n, x, y };
-          y += 75;
+          const { font: f } = n;
+          const node = { ...n, x, y, font: { ...f, vadjust: -20 } };
+          y += 100;
           return node;
         });
-        newGraph.nodes.push(...legend_positioned);
+
+        newGraph.nodes.add
+          ? newGraph.nodes.add(legend_positioned)
+          : newGraph.nodes.push(...legend_positioned);
+
         this.network = new Network(container, newGraph, this.get_options);
         this.events.forEach(ev =>
           this.network.on(ev, props => this.handle_event(ev, props))
         );
 
         this.network.on('afterDrawing', () => (this.dialog = false));
+        // this.network.on('stabilizationIterationsDone', () => {
+        //   this.network.setOptions({ physics: false });
+        // });
       }
     }
   };
 </script> 
 
 <style>
-  #graph {
-    background-color: #fefefe;
-  }
-  .container {
-    width: 60%;
+  .explorerContainer {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    height: 100vh;
+    max-height: 100vh;
+    width: 100vw;
+  }
+  #graph {
+    background-color: #fefefe;
+    width: 100%;
+    height: 90%;
+  }
+  #topic {
+    height: 5%;
+  }
+  #reloadBtn {
+    height: 5%;
   }
 </style>

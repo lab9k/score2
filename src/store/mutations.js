@@ -6,13 +6,13 @@ import {
   map,
   groupBy,
   filter,
-  partition,
-  forEach,
-  times,
   includes,
   find,
   concat
 } from 'lodash';
+import Data from '../models';
+import { challengeProto, keywordProto, cityProto } from '../models/options';
+
 const extractData = arr => {
   let count = 0;
   return arr.entry.map(entry => {
@@ -38,75 +38,6 @@ const extractData = arr => {
   });
 };
 
-const commonProto = {
-  shape: 'hexagon',
-  mass: 2,
-  fixed: false
-};
-
-const cityProto = {
-  ...commonProto,
-  type: 'city',
-  color: 'rgba(6,133,135,1)'
-};
-
-const keywordProto = {
-  ...commonProto,
-  type: 'keywords',
-  color: 'rgba(79, 185, 159, 1)'
-};
-
-const challengeProto = {
-  ...commonProto,
-  type: 'challenge',
-  color: 'rgba(242, 177, 52, 1)'
-};
-
-const topicProto = {
-  ...commonProto,
-  type: 'topics',
-  color: 'rgba(237, 85, 59, 1)'
-};
-
-export const legendNodes = [
-  {
-    ...cityProto,
-    fixed: true,
-    physics: false,
-    size: 25,
-    x: 25,
-    y: 0,
-    label: 'city'
-  },
-  {
-    ...keywordProto,
-    fixed: true,
-    physics: false,
-    size: 25,
-    x: 25,
-    y: 50,
-    label: 'keyword'
-  },
-  {
-    ...challengeProto,
-    fixed: true,
-    physics: false,
-    size: 25,
-    x: 25,
-    y: 100,
-    label: 'challenge'
-  },
-  {
-    ...topicProto,
-    fixed: true,
-    physics: false,
-    size: 25,
-    x: 25,
-    y: 150,
-    label: 'topic'
-  }
-];
-
 const extractCities = arr => {
   return uniqBy(arr, 'city')
     .map(val => val.city)
@@ -115,42 +46,6 @@ const extractCities = arr => {
 
 const extractArrays = arr => prop => {
   return union(...arr.map(val => val[prop])).filter(val => val !== '');
-};
-
-const hasTopic = topic => city => {
-  return filter(city, ch => includes(ch.topics, topic.label)).length;
-};
-
-const extractEdges = (nodes, data) => {
-  const [cityNodes, topicNodes] = partition(nodes, n => n.type === 'city');
-  const edges = [];
-
-  forEach(topicNodes, topic => {
-    const hasCurrentTopic = hasTopic(topic);
-    forEach(cityNodes, city => {
-      edges.push(
-        ...times(hasCurrentTopic(data[city.label]), () => ({
-          from: city.id,
-          to: topic.id
-        }))
-      );
-    });
-  });
-
-  return edges;
-};
-
-const extractNodes = state => {
-  const extras = state[state.focus].map(val => ({
-    ...topicProto,
-    label: val,
-    type: state.focus
-  }));
-  const cities = state.cities.map(val => ({ label: val, ...cityProto }));
-  let count = 0;
-  return flatMap([extras, cities], val =>
-    map(val, v => ({ ...v, id: ++count }))
-  );
 };
 
 export default {
@@ -169,14 +64,18 @@ export default {
     state.keywords = keywords;
     state.topics = topics;
 
-    const nodes = extractNodes(state);
-    const edges = extractEdges(nodes, raw_data);
-    state.graph = { nodes, edges };
+    //const nodes = extractNodes(state);
+    //const edges = extractEdges(nodes, raw_data);
+
+    const graph = new Data(raw_data).get_city_to_topic_view();
+
+    state.graph = graph;
   },
 
   handle_click(state, { nodes }) {
+    const graphNodes = state.graph.nodes.map(c => c);
     const clickedNode = find(
-      state.graph.nodes,
+      graphNodes,
       n => n.id === nodes[0] && n.type === 'topics'
     );
     if (clickedNode) {

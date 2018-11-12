@@ -1,8 +1,9 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import mutations, { legendNodes } from './mutations';
+import mutations from './mutations';
 import actions from './actions';
 import getters from './getters';
+import { legendNodes } from '../models/options';
 
 Vue.use(Vuex);
 
@@ -18,7 +19,9 @@ export default new Vuex.Store({
     options: {
       autoResize: true,
       height: '100%',
-      width: '100%'
+      width: '100%',
+      layout: { improvedLayout: true },
+      physics: {}
     },
     raw_data: {},
     btnText: 'Reload',
