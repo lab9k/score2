@@ -72,6 +72,9 @@
     methods: {
       reload() {
         this.dialog = true;
+        if (this.demo) {
+          this.$store.commit(types.SWAP_DEMO);
+        }
         this.$store.state.topic = '';
         this.$store.dispatch(types.FETCH_SPREADSHEET_DATA);
       },
