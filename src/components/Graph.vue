@@ -73,6 +73,7 @@
       reload() {
         this.dialog = true;
         if (this.demo) {
+          clearTimeout(this.timeout);
           this.$store.commit(types.SWAP_DEMO);
         }
         this.$store.state.topic = '';
@@ -84,17 +85,20 @@
             this.dialog = true;
             this.$store.commit(types.HANDLE_CLICK, props);
             if (this.demo) {
+              clearTimeout(this.timeout);
               this.$store.commit(types.SWAP_DEMO);
             }
             break;
           case 'selectNode':
             //? current scale = Math.round(this.network.getScale()*10)/10
-            if (!this.demo) {
-              this.network.focus(props.nodes[0], {
-                animation: { duration: 800, easingFunction: 'easeInCubic' },
-                scale: 1.2
-              });
+            if (this.demo) {
+              clearTimeout(this.timeout);
+              this.$store.commit(types.SWAP_DEMO);
             }
+            this.network.focus(props.nodes[0], {
+              animation: { duration: 800, easingFunction: 'easeInCubic' },
+              scale: 1.2
+            });
             console.log(this.network);
             break;
           default:
