@@ -5,7 +5,11 @@
       <h3 class="text-xs-center">Current topic: <span>{{topic}}</span></h3>
     </div>
     <div id='graph' ref='graph'></div>
-    <v-btn id="reloadBtn" color="warning" @click="reload">{{btnText}}</v-btn>
+    <div id="btns">
+      <v-btn id="reloadBtn" color="warning" @click="reload">{{btnText}}</v-btn>
+      <v-btn id="demoBtn" color="primary" @click="enableDemo">{{demoBtnText}}</v-btn>
+    </div>
+
     <v-dialog v-model="dialog" hide-overlay persistent width="300">
       <v-card color="primary" dark>
         <v-card-text>
@@ -50,7 +54,13 @@
     },
     computed: {
       ...mapState([]),
-      ...mapGetters(['get_nodes_and_edges', 'get_options', 'btnText', 'topic'])
+      ...mapGetters([
+        'get_nodes_and_edges',
+        'get_options',
+        'btnText',
+        'topic',
+        'demoBtnText'
+      ])
     },
     created() {},
     mounted() {
@@ -79,7 +89,8 @@
           default:
             return;
         }
-      }
+      },
+      enableDemo() {}
     },
     watch: {
       get_nodes_and_edges: function(newGraph) {
@@ -134,5 +145,12 @@
   }
   #reloadBtn {
     height: 5%;
+  }
+  #btns {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-content: center;
+    align-items: center;
   }
 </style>

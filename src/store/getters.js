@@ -6,5 +6,6 @@ export default {
   btnText: ({ btnText }) => btnText,
   cities: ({ cities }) => cities,
   selected_cities: ({ selected_cities }) => selected_cities,
-  topic: ({ topic }) => topic
+  topic: ({ topic }) => topic,
+  demoBtnText: ({ demo }) => (demo ? 'Disable Demo' : 'Enable Demo')
 };
