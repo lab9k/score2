@@ -138,7 +138,7 @@
         let y = -container.clientHeight / 2 - 50;
         const legend_positioned = legend.map(n => {
           const { font: f } = n;
-          const node = { ...n, x, y, font: { ...f, vadjust: -15 } };
+          const node = { ...n, x, y, font: { ...f, vadjust: -12 } };
           y += 80;
           return node;
         });
