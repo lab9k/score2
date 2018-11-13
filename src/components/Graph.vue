@@ -27,6 +27,7 @@
   import { legend } from '../store';
   // import CitySelection from './CitySelection';
   import { Network } from 'vis';
+  import { sample } from 'lodash';
 
   export default {
     name: 'Graph',
@@ -79,13 +80,18 @@
           case 'doubleClick':
             this.dialog = true;
             this.$store.commit(types.HANDLE_CLICK, props);
+            if (this.demo) {
+              this.$store.commit(types.SWAP_DEMO);
+            }
             break;
           case 'selectNode':
             //? current scale = Math.round(this.network.getScale()*10)/10
-            this.network.focus(props.nodes[0], {
-              animation: { duration: 800, easingFunction: 'easeInCubic' },
-              scale: 1.3
-            });
+            if (!this.demo) {
+              this.network.focus(props.nodes[0], {
+                animation: { duration: 800, easingFunction: 'easeInCubic' },
+                scale: 1.2
+              });
+            }
             console.log(this.network);
             break;
           default:
@@ -98,15 +104,22 @@
           clearTimeout(this.timeout);
         } else {
           // enable demo mode
-          const secs = this.randomSecs(4, 8);
+          const secs = 20;
           const focus = () => {
             const secs = this.randomSecs(4, 8);
             // Focus on random nodes
+            const node = sample(this.network.body.data.nodes.map(c => c));
 
-            this.timeout = setTimeout(focus, secs);
+            this.network.focus(node.id, {
+              animation: { duration: secs, easingFunction: 'easeOutCubic' },
+              scale: 1.1
+            });
+
+            this.timeout = setTimeout(focus, secs + 50);
           };
           this.timeout = setTimeout(focus, secs);
         }
+        this.$store.commit(types.SWAP_DEMO);
       },
       randomSecs(min, max) {
         return Math.floor(Math.random() * (max * 1000 - min * 1000)) + min * 1000;
