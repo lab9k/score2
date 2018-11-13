@@ -35,7 +35,8 @@
       return {
         events: ['doubleClick', 'selectNode'],
         network: null,
-        dialog: false
+        dialog: false,
+        timeout: null
       };
     },
     props: {
@@ -53,7 +54,7 @@
       }
     },
     computed: {
-      ...mapState([]),
+      ...mapState(['demo']),
       ...mapGetters([
         'get_nodes_and_edges',
         'get_options',
@@ -85,12 +86,31 @@
               animation: { duration: 800, easingFunction: 'easeInCubic' },
               scale: 1.3
             });
+            console.log(this.network);
             break;
           default:
             return;
         }
       },
-      enableDemo() {}
+      enableDemo() {
+        if (this.demo) {
+          // disable demo mode
+          clearTimeout(this.timeout);
+        } else {
+          // enable demo mode
+          const secs = this.randomSecs(4, 8);
+          const focus = () => {
+            const secs = this.randomSecs(4, 8);
+            // Focus on random nodes
+
+            this.timeout = setTimeout(focus, secs);
+          };
+          this.timeout = setTimeout(focus, secs);
+        }
+      },
+      randomSecs(min, max) {
+        return Math.floor(Math.random() * (max * 1000 - min * 1000)) + min * 1000;
+      }
     },
     watch: {
       get_nodes_and_edges: function(newGraph) {
@@ -143,10 +163,8 @@
   #topic {
     height: 5%;
   }
-  #reloadBtn {
-    height: 5%;
-  }
   #btns {
+    height: 5%;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
