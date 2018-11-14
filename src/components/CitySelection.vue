@@ -1,11 +1,25 @@
 <template>
-    <v-container grid-list-md text-xs-center>
-        <v-layout row wrap>
-            <v-flex xs4 v-for="c in selectables" :key="c.name">
-                <v-checkbox :label="c.name" v-model="c.checked" @change="select(c.name)"></v-checkbox>
-            </v-flex>
-        </v-layout>
-    </v-container>
+  <v-container 
+    grid-list-md 
+    text-xs-center
+  >
+    <v-layout 
+      row 
+      wrap
+    >
+      <v-flex 
+        xs4 
+        v-for="c in selectables" 
+        :key="c.name"
+      >
+        <v-checkbox 
+          :label="c.name" 
+          v-model="c.checked" 
+          @change="select(c.name)"
+        />
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 <script>
     import { mapState, mapGetters } from 'vuex';

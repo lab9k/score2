@@ -1,20 +1,46 @@
 <template>
   <div class='explorerContainer'>
     <!-- <CitySelection /> -->
-    <div id="topic" v-if="topic !== ''">
-      <h3 class="text-xs-center">Current topic: <span>{{topic}}</span></h3>
+    <div 
+      id="topic" 
+      v-if="topic !== ''"
+    >
+      <h3 class="text-xs-center">Current topic: <span>{{ topic }}</span></h3>
     </div>
-    <div id='graph' ref='graph'></div>
+    <div 
+      id='graph' 
+      ref='graph'
+    />
     <div id="btns">
-      <v-btn id="reloadBtn" color="warning" @click="reload">{{btnText}}</v-btn>
-      <v-btn id="demoBtn" color="primary" @click="enableDemo">{{demoBtnText}}</v-btn>
+      <v-btn 
+        id="reloadBtn" 
+        color="warning" 
+        @click="reload"
+      >{{ btnText }}</v-btn>
+      <v-btn 
+        id="demoBtn" 
+        color="primary" 
+        @click="enableDemo"
+      >{{ demoBtnText }}</v-btn>
     </div>
 
-    <v-dialog v-model="dialog" hide-overlay persistent width="300">
-      <v-card color="primary" dark>
+    <v-dialog 
+      v-model="dialog" 
+      hide-overlay 
+      persistent 
+      width="300"
+    >
+      <v-card 
+        color="primary" 
+        dark
+      >
         <v-card-text>
           Please stand by
-          <v-progress-linear indeterminate color="white" class="mb-0"></v-progress-linear>
+          <v-progress-linear 
+            indeterminate 
+            color="white" 
+            class="mb-0"
+          />
         </v-card-text>
       </v-card>
     </v-dialog>
