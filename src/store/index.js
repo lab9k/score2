@@ -25,6 +25,7 @@ export default new Vuex.Store({
     },
     raw_data: {},
     btnText: 'Reload',
+    demo: false,
     selected_topic: {},
     selected_cities: []
   },

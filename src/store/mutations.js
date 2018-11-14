@@ -147,5 +147,8 @@ export default {
     } else {
       selected_cities = [...selected_cities, name];
     }
+  },
+  swap_demo_mode(state) {
+    state.demo = !state.demo;
   }
 };

@@ -1,5 +1,5 @@
 module.exports = {
   lintOnSave: true,
   outputDir: './docs',
-  baseUrl: process.env.NODE_ENV === 'production' ? '/score2/' : '/'
+  baseUrl: process.env.NODE_ENV === 'production' ? './' : '/'
 };
