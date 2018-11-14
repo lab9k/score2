@@ -1,15 +1,15 @@
 <template>
-  <div class='explorerContainer'>
+  <div class="explorerContainer">
     <!-- <CitySelection /> -->
     <div 
-      id="topic" 
-      v-if="topic !== ''"
+      v-if="topic !== ''" 
+      id="topic"
     >
       <h3 class="text-xs-center">Current topic: <span>{{ topic }}</span></h3>
     </div>
     <div 
-      id='graph' 
-      ref='graph'
+      id="graph" 
+      ref="graph"
     />
     <div id="btns">
       <v-btn 
@@ -57,15 +57,6 @@ import { sample } from 'lodash';
 
 export default {
   name: 'Graph',
-  // components: { CitySelection },
-  data() {
-    return {
-      events: ['doubleClick', 'selectNode', 'click'],
-      network: null,
-      dialog: false,
-      timeout: null
-    };
-  },
   props: {
     width: {
       type: String,
@@ -80,6 +71,15 @@ export default {
       }
     }
   },
+  // components: { CitySelection },
+  data() {
+    return {
+      events: ['doubleClick', 'selectNode', 'click'],
+      network: null,
+      dialog: false,
+      timeout: null
+    };
+  },
   computed: {
     ...mapState(['demo']),
     ...mapGetters([
@@ -89,6 +89,36 @@ export default {
       'topic',
       'demoBtnText'
     ])
+  },
+  watch: {
+    get_nodes_and_edges: function(newGraph) {
+      if (this.network !== null) {
+        this.network.destroy();
+      }
+      const container = this.$refs.graph;
+      const x = -container.clientWidth / 2 - 50;
+      let y = -container.clientHeight / 2 - 50;
+      const legend_positioned = legend.map(n => {
+        const { font: f } = n;
+        const node = { ...n, x, y, font: { ...f, vadjust: -12 } };
+        y += 80;
+        return node;
+      });
+
+      newGraph.nodes.add
+        ? newGraph.nodes.add(legend_positioned)
+        : newGraph.nodes.push(...legend_positioned);
+
+      this.network = new Network(container, newGraph, this.get_options);
+      this.events.forEach(ev =>
+        this.network.on(ev, props => this.handle_event(ev, props))
+      );
+
+      this.network.on('afterDrawing', () => (this.dialog = false));
+      this.network.on('stabilizationIterationsDone', () => {
+        this.network.setOptions({ physics: false });
+      });
+    }
   },
   created() {},
   mounted() {
@@ -171,36 +201,6 @@ export default {
       return Math.floor(Math.random() * (max * 1000 - min * 1000)) + min * 1000;
     }
   },
-  watch: {
-    get_nodes_and_edges: function(newGraph) {
-      if (this.network !== null) {
-        this.network.destroy();
-      }
-      const container = this.$refs.graph;
-      const x = -container.clientWidth / 2 - 50;
-      let y = -container.clientHeight / 2 - 50;
-      const legend_positioned = legend.map(n => {
-        const { font: f } = n;
-        const node = { ...n, x, y, font: { ...f, vadjust: -12 } };
-        y += 80;
-        return node;
-      });
-
-      newGraph.nodes.add
-        ? newGraph.nodes.add(legend_positioned)
-        : newGraph.nodes.push(...legend_positioned);
-
-      this.network = new Network(container, newGraph, this.get_options);
-      this.events.forEach(ev =>
-        this.network.on(ev, props => this.handle_event(ev, props))
-      );
-
-      this.network.on('afterDrawing', () => (this.dialog = false));
-      this.network.on('stabilizationIterationsDone', () => {
-        this.network.setOptions({ physics: false });
-      });
-    }
-  }
 };
 </script> 
 
