@@ -1,4 +1,4 @@
-import { challengeProto, keywordProto } from '../models/options';
+import { challengeProto, keywordProto } from './nodeOptions';
 import { map } from 'lodash';
 export default class Challenge {
   constructor(data) {

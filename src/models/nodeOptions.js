@@ -1,3 +1,7 @@
+/**
+ * Options for different types of nodes.
+ * commonProto is a set of options inherited by all.
+ */
 const commonProto = {
   shape: 'hexagon',
   mass: 3,
@@ -33,16 +37,16 @@ export const topicProto = {
 };
 
 export const legendProto = {
-  clickable: false
+  clickable: false,
+  fixed: true,
+  physics: false,
+  size: 25
 };
 
 export const legendNodes = [
   {
     ...cityProto,
     ...legendProto,
-    fixed: true,
-    physics: false,
-    size: 25,
     x: 25,
     y: 0,
     label: 'city'
@@ -50,9 +54,6 @@ export const legendNodes = [
   {
     ...keywordProto,
     ...legendProto,
-    fixed: true,
-    physics: false,
-    size: 25,
     x: 25,
     y: 50,
     label: 'keyword'
@@ -60,9 +61,6 @@ export const legendNodes = [
   {
     ...challengeProto,
     ...legendProto,
-    fixed: true,
-    physics: false,
-    size: 25,
     x: 25,
     y: 100,
     label: 'challenge'
@@ -70,9 +68,6 @@ export const legendNodes = [
   {
     ...topicProto,
     ...legendProto,
-    fixed: true,
-    physics: false,
-    size: 25,
     x: 25,
     y: 150,
     label: 'topic'

@@ -11,7 +11,7 @@ import {
   concat
 } from 'lodash';
 import Data from '../models';
-import { challengeProto, keywordProto, cityProto } from '../models/options';
+import { challengeProto, keywordProto, cityProto } from '../models/nodeOptions';
 
 const extractData = arr => {
   let count = 0;

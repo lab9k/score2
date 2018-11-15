@@ -3,7 +3,7 @@ import Vuex from 'vuex';
 import mutations from './mutations';
 import actions from './actions';
 import getters from './getters';
-import { legendNodes } from '../models/options';
+import { legendNodes } from '../models/nodeOptions';
 
 Vue.use(Vuex);
 

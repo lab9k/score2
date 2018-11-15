@@ -1,6 +1,6 @@
 import { map, flatMap } from 'lodash';
 import Challenge from './challenge';
-import { cityProto, topicProto } from './options';
+import { cityProto, topicProto } from './nodeOptions';
 export default class City {
   constructor(name) {
     this.name = name;
