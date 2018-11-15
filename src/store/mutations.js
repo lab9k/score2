@@ -72,11 +72,11 @@ export default {
     state.graph = graph;
   },
 
-  handle_click(state, { nodes }) {
+  handle_click(state, id) {
     const graphNodes = state.graph.nodes.map(c => c);
     const clickedNode = find(
       graphNodes,
-      n => n.id === nodes[0] && n.type === 'topics'
+      n => n.id === id && n.type === 'topics'
     );
     if (clickedNode) {
       state.btnText = 'back';

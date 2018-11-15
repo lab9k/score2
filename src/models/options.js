@@ -4,7 +4,8 @@ const commonProto = {
   fixed: false,
   font: {
     size: 18
-  }
+  },
+  clickable: true
 };
 
 export const cityProto = {
@@ -31,9 +32,14 @@ export const topicProto = {
   color: 'rgba(252, 60, 60, 1)'
 };
 
+export const legendProto = {
+  clickable: false
+};
+
 export const legendNodes = [
   {
     ...cityProto,
+    ...legendProto,
     fixed: true,
     physics: false,
     size: 25,
@@ -43,6 +49,7 @@ export const legendNodes = [
   },
   {
     ...keywordProto,
+    ...legendProto,
     fixed: true,
     physics: false,
     size: 25,
@@ -52,6 +59,7 @@ export const legendNodes = [
   },
   {
     ...challengeProto,
+    ...legendProto,
     fixed: true,
     physics: false,
     size: 25,
@@ -61,6 +69,7 @@ export const legendNodes = [
   },
   {
     ...topicProto,
+    ...legendProto,
     fixed: true,
     physics: false,
     size: 25,

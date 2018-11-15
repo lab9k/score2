@@ -137,10 +137,14 @@ export default {
       this.$store.dispatch(types.FETCH_SPREADSHEET_DATA);
     },
     handle_event(ev, props) {
+      const id = props.nodes[0];
+      const node = this.network.body.data.nodes
+        .map(c => c)
+        .find(e => e.id === id);
       switch (ev) {
         case 'doubleClick':
           this.dialog = true;
-          this.$store.commit(types.HANDLE_CLICK, props);
+          this.$store.commit(types.HANDLE_CLICK, id);
           if (this.demo) {
             clearTimeout(this.timeout);
             this.$store.commit(types.SWAP_DEMO);
@@ -152,10 +156,13 @@ export default {
             clearTimeout(this.timeout);
             this.$store.commit(types.SWAP_DEMO);
           }
-          this.network.focus(props.nodes[0], {
-            animation: { duration: 800, easingFunction: 'easeInCubic' },
-            scale: 1.2
-          });
+          if (node.clickable) {
+            this.network.focus(id, {
+              animation: { duration: 800, easingFunction: 'easeInCubic' },
+              scale: 1.2
+            });
+          }
+
           console.log(this.network);
           break;
         case 'click':
@@ -184,7 +191,9 @@ export default {
         const focus = () => {
           const secs = this.randomSecs(4, 8);
           // Focus on random nodes
-          const node = sample(this.network.body.data.nodes.map(c => c));
+          const node = sample(
+            this.network.body.data.nodes.map(c => c).filter(e => e.clickable)
+          );
 
           this.network.focus(node.id, {
             animation: { duration: secs, easingFunction: 'easeOutCubic' },
@@ -200,7 +209,7 @@ export default {
     randomSecs(min, max) {
       return Math.floor(Math.random() * (max * 1000 - min * 1000)) + min * 1000;
     }
-  },
+  }
 };
 </script> 
 
