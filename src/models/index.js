@@ -54,8 +54,9 @@ export default class Data {
         ...n,
         id: ++counter
       }));
-      forEach(keywordNodes, k =>
-        find(nodes, n => n.label === k.label) ? 0 : nodes.push(k)
+      forEach(
+        keywordNodes,
+        k => (find(nodes, n => n.label === k.label) ? 0 : nodes.push(k))
       );
     });
   }

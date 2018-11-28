@@ -1,0 +1,1 @@
+export { formatData } from './dataAdapter';

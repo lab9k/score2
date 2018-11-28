@@ -1,51 +1,53 @@
 <template>
   <div class="explorerContainer">
     <!-- <CitySelection /> -->
-    <div 
-      v-if="topic !== ''" 
+    <div
+      v-if="topic !== ''"
       id="topic"
     >
-      <h3 class="text-xs-center">Current topic: <span>{{ topic }}</span></h3>
+      <h3 class="text-xs-center">
+        Current topic:
+        <span>{{ topic }}</span>
+      </h3>
     </div>
-    <div 
-      id="graph" 
+    <div
+      id="graph"
       ref="graph"
     />
     <div id="btns">
-      <v-btn 
-        id="reloadBtn" 
-        color="warning" 
+      <v-btn
+        id="reloadBtn"
+        color="warning"
         @click="reload"
       >{{ btnText }}</v-btn>
-      <v-btn 
-        id="demoBtn" 
-        color="primary" 
+      <v-btn
+        id="demoBtn"
+        color="primary"
         @click="enableDemo"
       >{{ demoBtnText }}</v-btn>
     </div>
 
-    <v-dialog 
-      v-model="dialog" 
-      hide-overlay 
-      persistent 
+    <v-dialog
+      v-model="dialog"
+      hide-overlay
+      persistent
       width="300"
     >
-      <v-card 
-        color="primary" 
+      <v-card
+        color="primary"
         dark
       >
-        <v-card-text>
-          Please stand by
-          <v-progress-linear 
-            indeterminate 
-            color="white" 
+        <v-card-text>Please stand by
+          <v-progress-linear
             class="mb-0"
+            color="white"
+            indeterminate
           />
         </v-card-text>
       </v-card>
     </v-dialog>
   </div>
-</template>
+</template> 
  
 <script>
 import { mapState, mapGetters } from 'vuex';
@@ -74,7 +76,13 @@ export default {
   // components: { CitySelection },
   data() {
     return {
-      events: ['doubleClick', 'selectNode', 'click'],
+      events: [
+        'doubleClick',
+        'selectNode',
+        'click',
+        'stabilizationIterationsDone',
+        'afterDrawing'
+      ],
       network: null,
       dialog: false,
       timeout: null
@@ -83,7 +91,7 @@ export default {
   computed: {
     ...mapState(['demo']),
     ...mapGetters([
-      'get_nodes_and_edges',
+      'get_network',
       'get_options',
       'btnText',
       'topic',
@@ -91,7 +99,7 @@ export default {
     ])
   },
   watch: {
-    get_nodes_and_edges: function(newGraph) {
+    get_network: function(newGraph) {
       if (this.network !== null) {
         this.network.destroy();
       }
@@ -113,11 +121,6 @@ export default {
       this.events.forEach(ev =>
         this.network.on(ev, props => this.handle_event(ev, props))
       );
-
-      this.network.on('afterDrawing', () => (this.dialog = false));
-      this.network.on('stabilizationIterationsDone', () => {
-        this.network.setOptions({ physics: false });
-      });
     }
   },
   created() {},
@@ -137,12 +140,13 @@ export default {
       this.$store.dispatch(types.FETCH_SPREADSHEET_DATA);
     },
     handle_event(ev, props) {
-      const id = props.nodes[0];
-      const node = this.network.body.data.nodes
-        .map(c => c)
-        .find(e => e.id === id);
+      let id, node;
       switch (ev) {
         case 'doubleClick':
+          id = props.nodes[0];
+          node = this.network.body.data.nodes
+            .map(c => c)
+            .find(e => e.id === id);
           this.dialog = true;
           this.$store.commit(types.HANDLE_CLICK, id);
           if (this.demo) {
@@ -151,6 +155,10 @@ export default {
           }
           break;
         case 'selectNode':
+          id = props.nodes[0];
+          node = this.network.body.data.nodes
+            .map(c => c)
+            .find(e => e.id === id);
           //? current scale = Math.round(this.network.getScale()*10)/10
           if (this.demo) {
             clearTimeout(this.timeout);
@@ -162,8 +170,6 @@ export default {
               scale: 1.2
             });
           }
-
-          console.log(this.network);
           break;
         case 'click':
           if (
@@ -176,6 +182,12 @@ export default {
               scale: 1.2
             });
           }
+          break;
+        case 'afterDrawing':
+          this.dialog = false;
+          break;
+        case 'stabilizationIterationsDone':
+          this.network.setOptions({ physics: false });
           break;
         default:
           return;

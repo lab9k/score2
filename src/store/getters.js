@@ -1,5 +1,5 @@
 export default {
-  get_nodes_and_edges({ graph }) {
+  get_network({ graph }) {
     return graph;
   },
   get_options: ({ options }) => options,

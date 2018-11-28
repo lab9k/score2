@@ -1,17 +1,17 @@
 import {
-  uniqBy,
   uniq,
-  union,
   flatMap,
   map,
-  groupBy,
   filter,
   includes,
   find,
-  concat
+  concat,
+  uniqBy,
+  union,
+  groupBy
 } from 'lodash';
-import Data from '../models';
 import { challengeProto, keywordProto, cityProto } from '../models/nodeOptions';
+import Data from '../models';
 
 const extractData = arr => {
   let count = 0;
@@ -48,9 +48,12 @@ const extractArrays = arr => prop => {
   return union(...arr.map(val => val[prop])).filter(val => val !== '');
 };
 
+// let format = null;
+
 export default {
   mutate_raw_data(state, { feed }) {
     const visData = extractData(feed);
+
     const cities = extractCities(visData);
 
     const dataExtract = extractArrays(visData);
@@ -69,6 +72,17 @@ export default {
 
     const graph = new Data(raw_data).get_city_to_topic_view();
 
+    // if (format === null) {
+    //   format = formatData(visData);
+    // }
+    // const graph = format('topics');
+
+    // state.graph = {
+    //   nodes: new DataSet(map(graph.nodes, node => ({ ...cityProto, ...node }))),
+    //   edges: new DataSet(
+    //     map(graph.edges, edge => ({ ...keywordProto, ...edge }))
+    //   )
+    // };
     state.graph = graph;
   },
 
