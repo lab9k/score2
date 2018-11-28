@@ -25,6 +25,11 @@
         color="primary"
         @click="enableDemo"
       >{{ demoBtnText }}</v-btn>
+      <v-btn
+        id="physicsBtn"
+        color="secondary"
+        @click="swapPhysics"
+      >{{ physicsText }}</v-btn>
     </div>
 
     <v-dialog
@@ -95,7 +100,9 @@ export default {
       'get_options',
       'btnText',
       'topic',
-      'demoBtnText'
+      'demoBtnText',
+      'physics',
+      'physicsText'
     ])
   },
   watch: {
@@ -138,6 +145,10 @@ export default {
       }
       this.$store.state.topic = '';
       this.$store.dispatch(types.FETCH_SPREADSHEET_DATA);
+    },
+    swapPhysics() {
+      this.$store.commit(types.SWAP_PHYSICS);
+      this.network.setOptions({ physics: this.physics });
     },
     handle_event(ev, props) {
       let id, node;
@@ -187,7 +198,7 @@ export default {
           this.dialog = false;
           break;
         case 'stabilizationIterationsDone':
-          this.network.setOptions({ physics: false });
+          this.swapPhysics();
           break;
         default:
           return;

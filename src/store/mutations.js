@@ -162,5 +162,8 @@ export default {
   },
   swap_demo_mode(state) {
     state.demo = !state.demo;
+  },
+  swap_physics(state) {
+    state.physics = !state.physics;
   }
 };

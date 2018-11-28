@@ -4,5 +4,6 @@ export default {
   HANDLE_CLICK: 'handle_click',
   RESET_BUTTON: 'reset_button',
   SELECT_CITY: 'select_city',
-  SWAP_DEMO: 'swap_demo_mode'
+  SWAP_DEMO: 'swap_demo_mode',
+  SWAP_PHYSICS: 'swap_physics'
 };

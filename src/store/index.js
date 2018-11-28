@@ -27,7 +27,8 @@ export default new Vuex.Store({
     btnText: 'Reload',
     demo: false,
     selected_topic: {},
-    selected_cities: []
+    selected_cities: [],
+    physics: true
   },
   mutations,
   actions,
