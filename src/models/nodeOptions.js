@@ -73,3 +73,18 @@ export const legendNodes = [
     label: 'topic'
   }
 ];
+
+export default function getProto(type) {
+  switch (type) {
+    case 'topics':
+      return topicProto;
+    case 'keywords':
+      return keywordProto;
+    case 'challenge':
+      return challengeProto;
+    case 'city':
+      return cityProto;
+    default:
+      return {};
+  }
+}

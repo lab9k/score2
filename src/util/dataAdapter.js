@@ -1,4 +1,5 @@
-import { filter, flatMap, forEach, includes } from 'lodash';
+import { flatMap, forEach, uniqBy, map, uniq, filter } from 'lodash';
+import { cityProto, default as getProto } from '../models/nodeOptions';
 /**
  *
  *
@@ -8,27 +9,53 @@ import { filter, flatMap, forEach, includes } from 'lodash';
 export const formatData = data => {
   // ? Format data
 
-  const nodes = filter(data, node => node.id);
+  const cities = filter(
+    map(uniqBy(data, 'city'), ch => ({ name: ch.city })),
+    c => c.name !== ''
+  );
+
   /**
    *
    * @param {string} key - property of node which links them together
    * @returns {nodes:DataSet,edges:DataSet}
    */
   const retrieveNetwork = key => {
-    // ? retrieve graph
-    const allKeywords = flatMap(nodes, node => node[key]);
-    const edges = [];
-    forEach(allKeywords, (keyword, i) => {
-      // ? retrieve all nodes where node[key] contains keyword
-      const commonKwNodes = filter(nodes, node => includes(node[key], keyword));
-      // ? all common nodes should link to the same keyword node
-      const kwNode = { id: nodes.length + i, label: keyword };
-      forEach(commonKwNodes, ckn =>
-        edges.push({ from: ckn.id, to: kwNode.id })
+    forEach(cities, city => {
+      city[key] = flatMap(
+        filter(data, d => d.city === city.name),
+        challenge => challenge[key]
       );
     });
+    const keys = uniq(flatMap(cities, city => city[key]));
 
-    return { nodes, edges };
+    let counter = 0;
+
+    const cityNodes = map(cities, city => ({
+      ...cityProto,
+      label: city.name,
+      id: ++counter,
+      [key]: city[key]
+    }));
+
+    const keywNodes = map(keys, keyw => ({
+      ...getProto(key),
+      label: keyw,
+      id: ++counter
+    }));
+
+    const nodes = [...cityNodes, ...keywNodes];
+    const edges = [];
+
+    forEach(cityNodes, city => {
+      forEach(city[key], keyword => {
+        edges.push({
+          from: city.id,
+          to: keywNodes.find(el => el.label === keyword).id
+        });
+      });
+    });
+    const graph = { nodes, edges };
+    return graph;
   };
   return retrieveNetwork;
 };

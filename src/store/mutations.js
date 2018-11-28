@@ -7,11 +7,13 @@ import {
   find,
   concat,
   uniqBy,
-  union,
+  // union,
   groupBy
 } from 'lodash';
 import { challengeProto, keywordProto, cityProto } from '../models/nodeOptions';
-import Data from '../models';
+//import Data from '../models';
+import { formatData } from '../util';
+import { DataSet } from 'vis';
 
 const extractData = arr => {
   let count = 0;
@@ -45,10 +47,10 @@ const extractCities = arr => {
 };
 
 const extractArrays = arr => prop => {
-  return union(...arr.map(val => val[prop])).filter(val => val !== '');
+  return flatMap(arr, val => val[prop]).filter(val => val !== '');
 };
 
-// let format = null;
+let format = null;
 
 export default {
   mutate_raw_data(state, { feed }) {
@@ -67,23 +69,18 @@ export default {
     state.keywords = keywords;
     state.topics = topics;
 
-    //const nodes = extractNodes(state);
-    //const edges = extractEdges(nodes, raw_data);
+    // const graph = new Data(raw_data).get_city_to_topic_view();
 
-    const graph = new Data(raw_data).get_city_to_topic_view();
+    if (format === null) {
+      format = formatData(visData);
+    }
+    const graph = format('topics');
 
-    // if (format === null) {
-    //   format = formatData(visData);
-    // }
-    // const graph = format('topics');
-
-    // state.graph = {
-    //   nodes: new DataSet(map(graph.nodes, node => ({ ...cityProto, ...node }))),
-    //   edges: new DataSet(
-    //     map(graph.edges, edge => ({ ...keywordProto, ...edge }))
-    //   )
-    // };
-    state.graph = graph;
+    state.graph = {
+      nodes: new DataSet(graph.nodes),
+      edges: new DataSet(graph.edges)
+    };
+    //state.graph = graph;
   },
 
   handle_click(state, id) {
@@ -97,6 +94,7 @@ export default {
       state.selected_topic = { ...clickedNode };
       state.topic = state.selected_topic.label;
 
+      console.log('clicked: ', clickedNode);
       // TODO: create all nodes (collect cities, challenges and keywords)
 
       // !show all cities
