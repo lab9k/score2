@@ -20,7 +20,7 @@ export default new Vuex.Store({
       autoResize: true,
       height: '100%',
       width: '100%',
-      layout: { improvedLayout: true },
+      layout: { improvedLayout: false },
       physics: {}
     },
     raw_data: {},

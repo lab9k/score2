@@ -17,7 +17,7 @@ export const formatData = data => {
   /**
    *
    * @param {string} key - property of node which links them together
-   * @returns {nodes:DataSet,edges:DataSet}
+   * @returns {{nodes,edges}}
    */
   const retrieveNetwork = key => {
     forEach(cities, city => {

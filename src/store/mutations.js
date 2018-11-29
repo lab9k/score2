@@ -1,18 +1,11 @@
+import { map, filter, includes, find, uniqBy, flatMap, compact } from 'lodash';
 import {
-  uniq,
-  flatMap,
-  map,
-  filter,
-  includes,
-  find,
-  concat,
-  uniqBy,
-  // union,
-  groupBy
-} from 'lodash';
-import { challengeProto, keywordProto, cityProto } from '../models/nodeOptions';
-//import Data from '../models';
-import { formatData } from '../util';
+  challengeProto,
+  keywordProto,
+  cityProto,
+  topicProto
+} from '../models/nodeOptions';
+import { generateNetwork } from '../util';
 import { DataSet } from 'vis';
 
 const extractData = arr => {
@@ -46,36 +39,67 @@ const extractCities = arr => {
     .filter(val => val !== '');
 };
 
-const extractArrays = arr => prop => {
-  return flatMap(arr, val => val[prop]).filter(val => val !== '');
+const getCityToChallengeToKeyword = (challenges, topic) => {
+  const cities = extractCities(challenges);
+  let counter = 0;
+  return compact(
+    map(cities, city => {
+      const challengesForCity = filter(
+        challenges,
+        c => c.city === city && includes(c.topics, topic)
+      );
+      if (challengesForCity.length <= 0) return null;
+      return {
+        challenges: map(challengesForCity, ch => ({
+          ...ch,
+          ...challengeProto,
+          label: ch.title,
+          id: ++counter,
+          keywords: map(ch.keywords, kw => ({
+            ...keywordProto,
+            label: kw,
+            id: ++counter
+          }))
+        })),
+        ...cityProto,
+        label: city,
+        id: ++counter
+      };
+    })
+  );
 };
 
-let format = null;
+const getCityToTopic = challenges => {
+  const cities = extractCities(challenges);
+  let counter = 0;
+  return map(cities, city => {
+    const cityChallenges = filter(challenges, c => c.city === city);
+    const cityTopics = flatMap(cityChallenges, cch => cch.topics);
+    return {
+      ...cityProto,
+      label: city,
+      id: ++counter,
+      topics: map(cityTopics, topic => ({
+        ...topicProto,
+        label: topic,
+        id: ++counter
+      }))
+    };
+  });
+};
 
 export default {
   mutate_raw_data(state, { feed }) {
-    const visData = extractData(feed);
-
-    const cities = extractCities(visData);
-
-    const dataExtract = extractArrays(visData);
-    const keywords = dataExtract('keywords');
-    const topics = dataExtract('topics');
-
-    const raw_data = groupBy(filter(visData, d => d.city !== ''), 'city');
+    const raw_data = extractData(feed);
     state.raw_data = raw_data;
-    state.cities = cities.sort();
-    state.selected_cities = cities.sort();
-    state.keywords = keywords;
-    state.topics = topics;
 
-    // const graph = new Data(raw_data).get_city_to_topic_view();
+    // state.cityToChallengeToKeyword = getCityToChallengeToKeyword(
+    //   visData,
+    //   'Sensing'
+    // );
+    // state.cityToTopic = getCityToTopic(visData);
 
-    if (format === null) {
-      format = formatData(visData);
-    }
-    const graph = format('topics');
-
+    const graph = generateNetwork(getCityToTopic(raw_data))('topics').graph;
     state.graph = {
       nodes: new DataSet(graph.nodes),
       edges: new DataSet(graph.edges)
@@ -92,62 +116,22 @@ export default {
     if (clickedNode) {
       state.btnText = 'back';
       state.selected_topic = { ...clickedNode };
-      state.topic = state.selected_topic.label;
+      const topic = state.selected_topic.label;
+      state.topic = topic;
 
-      console.log('clicked: ', clickedNode);
-      // TODO: create all nodes (collect cities, challenges and keywords)
-
-      // !show all cities
-      const cities = map(state.cities, name => ({ label: name, ...cityProto }));
-      // !filter challenges on the selected topic
-
-      const challenges = filter(
-        flatMap(cities, city => state.raw_data[city.label]),
-        ch => includes(ch.topics, state.selected_topic.label)
+      state.cityToChallengeToKeyword = getCityToChallengeToKeyword(
+        state.raw_data,
+        topic
       );
 
-      const challengeNodes = map(challenges, ch => ({
-        label: ch.title,
-        city: ch.city,
-        ...challengeProto
-      }));
+      const { graph } = generateNetwork(
+        getCityToChallengeToKeyword(state.raw_data, topic)
+      )('challenges')('keywords');
 
-      const keywords = map(uniq(flatMap(challenges, ch => ch.keywords)), k => ({
-        label: k,
-        ...keywordProto
-      }));
-      let count = 0;
-      const nodes = map(concat(challengeNodes, cities, keywords), val => ({
-        ...val,
-        id: ++count
-      }));
-      // TODO: create the edges
-
-      const challenge_to_city = map(
-        filter(nodes, n => n.type === 'challenge'),
-        chn => ({
-          from: chn.id,
-          to: find(nodes, n => n.label === chn.city).id
-        })
-      );
-
-      const challenge_to_keyword = flatMap(
-        filter(nodes, n => n.type === 'challenge'),
-        ch => {
-          const { keywords } = find(
-            state.raw_data[ch.city],
-            c => c.title === ch.label
-          );
-          return map(keywords, k => ({
-            from: find(nodes, no => no.label === k).id,
-            to: ch.id
-          }));
-        }
-      );
-
-      const edges = concat(challenge_to_city, challenge_to_keyword);
-
-      state.graph = { nodes, edges };
+      state.graph = {
+        nodes: new DataSet(graph.nodes),
+        edges: new DataSet(graph.edges)
+      };
     }
   },
   reset_button(state) {
