@@ -8,6 +8,7 @@ export default {
   selected_cities: ({ selected_cities }) => selected_cities,
   topic: ({ topic }) => topic,
   demoBtnText: ({ demo }) => (demo ? 'Disable Demo' : 'Enable Demo'),
-  physics: ({ physics }) => physics,
-  physicsText: ({ physics }) => (physics ? 'Disable physics' : 'Enable physics')
+  physics: ({ options: { physics } }) => physics,
+  physicsText: ({ options: { physics } }) =>
+    physics ? 'Disable physics' : 'Enable physics'
 };

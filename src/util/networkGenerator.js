@@ -18,11 +18,6 @@ export default function generateNetwork(data) {
    * @returns {Function} generator
    */
   const generator = key => {
-    if (!generator.graph) {
-      // ? First iteration: initialize generator.data, push initial Nodes into data
-      generator.graph = { nodes: [...generator.data], edges: [] };
-    }
-
     forEach(generator.data, d => {
       // get key arrays from current sublevel
       const keyList = d[key];
@@ -64,6 +59,9 @@ export default function generateNetwork(data) {
 
     return generator;
   };
+
+  // ? First iteration: initialize generator.data, push initial Nodes into data
   generator.data = data;
+  generator.graph = { nodes: [...generator.data], edges: [] };
   return generator;
 }

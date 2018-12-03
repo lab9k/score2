@@ -21,14 +21,13 @@ export default new Vuex.Store({
       height: '100%',
       width: '100%',
       layout: { improvedLayout: false },
-      physics: {}
+      physics: true
     },
     raw_data: {},
     btnText: 'Reload',
     demo: false,
     selected_topic: {},
-    selected_cities: [],
-    physics: true
+    selected_cities: []
   },
   mutations,
   actions,
