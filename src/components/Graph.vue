@@ -56,8 +56,8 @@
  
 <script>
 import { mapState, mapGetters } from 'vuex';
-import types from '../store/types';
-import { legend } from '../store';
+import { types } from '../store';
+import { legendNodes } from '../models';
 import { Network } from 'vis';
 import { sample } from 'lodash';
 
@@ -109,18 +109,16 @@ export default {
         this.network.destroy();
       }
       const container = this.$refs.graph;
-      const x = -container.clientWidth / 2 - 50;
-      let y = -container.clientHeight / 2 - 50;
-      const legend_positioned = legend.map(n => {
+      const x = -container.clientWidth / 2 - 75;
+      let y = -container.clientHeight / 2 - 75;
+      const legend_positioned = legendNodes.map(n => {
         const { font: f } = n;
         const node = { ...n, x, y, font: { ...f, vadjust: -12 } };
         y += 80;
         return node;
       });
 
-      newGraph.nodes.add
-        ? newGraph.nodes.add(legend_positioned)
-        : newGraph.nodes.push(...legend_positioned);
+      newGraph.nodes.add(legend_positioned);
 
       this.network = new Network(container, newGraph, this.get_options);
       this.events.forEach(ev =>
@@ -158,6 +156,7 @@ export default {
             .find(e => e.id === id);
           this.dialog = true;
           this.$store.commit(types.HANDLE_CLICK, node);
+
           if (this.demo) {
             clearTimeout(this.timeout);
             this.$store.commit(types.SWAP_DEMO);

@@ -1,10 +1,5 @@
 import { map, uniqBy, compact, filter, includes, flatMap } from 'lodash';
-import {
-  challengeProto,
-  keywordProto,
-  cityProto,
-  topicProto
-} from '../models/nodeOptions';
+import { challengeProto, keywordProto, cityProto, topicProto } from '../models';
 
 export const extractData = arr => {
   let count = 0;
