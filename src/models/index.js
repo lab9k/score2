@@ -3,37 +3,29 @@
  * commonProto is a set of options inherited by all.
  */
 const commonProto = {
-  shape: 'hexagon',
   mass: 3,
   fixed: false,
-  font: {
-    size: 18
-  },
   clickable: true
 };
 
 export const cityProto = {
   ...commonProto,
-  type: 'city',
-  color: 'rgba(57,62,70,1)'
+  group: 'city'
 };
 
 export const keywordProto = {
   ...commonProto,
-  type: 'keywords',
-  color: 'rgba(0, 173, 181, 1)'
+  group: 'keywords'
 };
 
 export const challengeProto = {
   ...commonProto,
-  type: 'challenge',
-  color: 'rgba(248, 181, 0, 1)'
+  group: 'challenge'
 };
 
 export const topicProto = {
   ...commonProto,
-  type: 'topics',
-  color: 'rgba(252, 60, 60, 1)'
+  group: 'topics'
 };
 
 export const legendProto = {

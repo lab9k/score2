@@ -24,6 +24,44 @@ export default new Vuex.Store({
           iterations: 150,
           fit: true
         }
+      },
+      groups: {
+        city: {
+          color: 'rgba(57,62,70,1)',
+          font: {
+            size: 18
+          },
+          shape: 'hexagon'
+        },
+        topics: {
+          color: 'rgba(252, 60, 60, 1)',
+          font: {
+            size: 18
+          },
+          shape: 'hexagon'
+        },
+        keywords: {
+          color: 'rgba(0, 173, 181, 1)',
+          font: {
+            size: 18
+          },
+          shape: 'hexagon'
+        },
+        challenge: {
+          color: 'rgba(248, 181, 0, 1)',
+          font: {
+            size: 18
+          },
+          shape: 'hexagon'
+        }
+      },
+      edges: {
+        arrows: {
+          to: {
+            enabled: true,
+            scaleFactor: 0.5
+          }
+        }
       }
     },
     raw_data: {},

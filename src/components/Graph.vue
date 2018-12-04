@@ -139,7 +139,7 @@ export default {
         clearTimeout(this.timeout);
         this.$store.commit(types.SWAP_DEMO);
       }
-      this.$store.state.topic = '';
+      this.$store.state.selected_topic = {};
       this.$store.dispatch(types.FETCH_SPREADSHEET_DATA);
     },
     swapPhysics() {
@@ -199,8 +199,6 @@ export default {
           this.$nextTick(() => {
             this.swapPhysics();
           });
-
-          console.log(this.network);
           break;
         default:
           return;
