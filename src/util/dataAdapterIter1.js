@@ -6,7 +6,6 @@ export const extractData = arr => {
   return map(arr.entry, entry => {
     const {
       gsx$city: { $t: city },
-      gsx$contact: { $t: contact },
       gsx$description: { $t: description },
       gsx$keywords: { $t: keywords },
       gsx$title: { $t: title },
@@ -14,7 +13,6 @@ export const extractData = arr => {
     } = entry;
     const ret = {
       city,
-      contact,
       description,
       title,
       keywords: keywords.split(', ').filter(t => t !== ''),

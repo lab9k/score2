@@ -60,7 +60,8 @@ export default new Vuex.Store({
           to: {
             enabled: true,
             scaleFactor: 0.5
-          }
+          },
+          arrowStrikethrough: false
         }
       }
     },

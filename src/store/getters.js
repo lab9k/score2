@@ -7,8 +7,16 @@ export default {
   cities: ({ cities }) => cities,
   selected_cities: ({ selected_cities }) => selected_cities,
   topic: ({ selected_topic }) => selected_topic.label,
+  /**
+   *
+   * @returns {string} wether demo can be enabled or disabled
+   */
   demoBtnText: ({ demo }) => (demo ? 'Disable Demo' : 'Enable Demo'),
   physics: ({ options: { physics } }) => physics,
+  /**
+   *
+   * @returns {string} wether physics can be enabled or disabled
+   */
   physicsText: ({
     options: {
       physics: { enabled }

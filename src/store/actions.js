@@ -10,10 +10,10 @@ export default {
    *
    * fetches data from SCORE spreadsheet and commits it to mutate local state.
    *
-   * @param {*} { commit } state object, handled by vuex
+   * @param {{commit:Function}} state object, handled by vuex
    */
   async fetch_spreadsheet({ commit }) {
-    const url = `https://spreadsheets.google.com/feeds/list/${'1adKrrgn-KxFe1mWHUXZEDvu23BIzHE2wLk2YfIQjzbM'}/${'1'}/public/values?alt=json`;
+    const url = 'https://spreadsheets.google.com/feeds/list/11PkGogP7rsQhiUomXhQBJVZh4wPZWPcDCJm8lKWrisE/2/public/values?alt=json';
     try {
       const json = await fetch_json(url);
       commit(types.MUTATE_RAW_DATA, json);
