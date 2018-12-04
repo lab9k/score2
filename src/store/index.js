@@ -17,7 +17,14 @@ export default new Vuex.Store({
       height: '100%',
       width: '100%',
       layout: { improvedLayout: false },
-      physics: true
+      physics: {
+        enabled: true,
+        stabilization: {
+          enabled: true,
+          iterations: 150,
+          fit: true
+        }
+      }
     },
     raw_data: {},
     reloadBtnText: 'Reload',

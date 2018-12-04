@@ -9,6 +9,9 @@ export default {
   topic: ({ selected_topic }) => selected_topic.label,
   demoBtnText: ({ demo }) => (demo ? 'Disable Demo' : 'Enable Demo'),
   physics: ({ options: { physics } }) => physics,
-  physicsText: ({ options: { physics } }) =>
-    physics ? 'Disable physics' : 'Enable physics'
+  physicsText: ({
+    options: {
+      physics: { enabled }
+    }
+  }) => (enabled ? 'Disable physics' : 'Enable physics')
 };

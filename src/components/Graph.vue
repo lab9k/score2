@@ -196,6 +196,11 @@ export default {
           break;
         case 'stabilizationIterationsDone':
           this.swapPhysics();
+          this.$nextTick(() => {
+            this.swapPhysics();
+          });
+
+          console.log(this.network);
           break;
         default:
           return;

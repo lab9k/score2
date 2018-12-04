@@ -40,6 +40,6 @@ export default {
     state.demo = !state.demo;
   },
   swap_physics({ options }) {
-    options.physics = !options.physics;
+    options.physics.enabled = !options.physics.enabled;
   }
 };
