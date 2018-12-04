@@ -1,4 +1,4 @@
-import types from '.';
+import { types } from '.';
 
 const fetch_json = async url => {
   const data = await fetch(url);
