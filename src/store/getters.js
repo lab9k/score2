@@ -3,10 +3,10 @@ export default {
     return graph;
   },
   get_options: ({ options }) => options,
-  btnText: ({ btnText }) => btnText,
+  reloadBtnText: ({ reloadBtnText }) => reloadBtnText,
   cities: ({ cities }) => cities,
   selected_cities: ({ selected_cities }) => selected_cities,
-  topic: ({ topic }) => topic,
+  topic: ({ selected_topic }) => selected_topic.label,
   demoBtnText: ({ demo }) => (demo ? 'Disable Demo' : 'Enable Demo'),
   physics: ({ options: { physics } }) => physics,
   physicsText: ({ options: { physics } }) =>

@@ -9,13 +9,10 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    topic: '',
     graph: {
       nodes: [],
       edges: []
     },
-    focus: 'topics',
-    cities: [],
     options: {
       autoResize: true,
       height: '100%',
@@ -24,10 +21,9 @@ export default new Vuex.Store({
       physics: true
     },
     raw_data: {},
-    btnText: 'Reload',
+    reloadBtnText: 'Reload',
     demo: false,
-    selected_topic: {},
-    selected_cities: []
+    selected_topic: {}
   },
   mutations,
   actions,

@@ -2,7 +2,7 @@
   <div class="explorerContainer">
     <!-- <CitySelection /> -->
     <div
-      v-if="topic !== ''"
+      v-if="topic"
       id="topic"
     >
       <h3 class="text-xs-center">
@@ -19,7 +19,7 @@
         id="reloadBtn"
         color="warning"
         @click="reload"
-      >{{ btnText }}</v-btn>
+      >{{ reloadBtnText }}</v-btn>
       <v-btn
         id="demoBtn"
         color="primary"
@@ -58,7 +58,6 @@
 import { mapState, mapGetters } from 'vuex';
 import types from '../store/types';
 import { legend } from '../store';
-// import CitySelection from './CitySelection';
 import { Network } from 'vis';
 import { sample } from 'lodash';
 
@@ -78,7 +77,6 @@ export default {
       }
     }
   },
-  // components: { CitySelection },
   data() {
     return {
       events: [
@@ -98,7 +96,7 @@ export default {
     ...mapGetters([
       'get_network',
       'get_options',
-      'btnText',
+      'reloadBtnText',
       'topic',
       'demoBtnText',
       'physics',
@@ -159,7 +157,7 @@ export default {
             .map(c => c)
             .find(e => e.id === id);
           this.dialog = true;
-          this.$store.commit(types.HANDLE_CLICK, id);
+          this.$store.commit(types.HANDLE_CLICK, node);
           if (this.demo) {
             clearTimeout(this.timeout);
             this.$store.commit(types.SWAP_DEMO);

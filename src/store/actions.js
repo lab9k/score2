@@ -1,6 +1,9 @@
 import types from './types';
 
-const fetch_json = url => fetch(url).then(data => data.json());
+const fetch_json = async url => {
+  const data = await fetch(url);
+  return data.json();
+};
 
 export default {
   /**
@@ -9,13 +12,14 @@ export default {
    *
    * @param {*} { commit } state object, handled by vuex
    */
-  fetch_spreadsheet({ commit }) {
+  async fetch_spreadsheet({ commit }) {
     const url = `https://spreadsheets.google.com/feeds/list/${'1adKrrgn-KxFe1mWHUXZEDvu23BIzHE2wLk2YfIQjzbM'}/${'1'}/public/values?alt=json`;
-    fetch_json(url)
-      .then(json => {
-        commit(types.MUTATE_RAW_DATA, json);
-        commit(types.RESET_BUTTON);
-      })
-      .catch(err => console.log(err));
+    try {
+      const json = await fetch_json(url);
+      commit(types.MUTATE_RAW_DATA, json);
+      commit(types.RESET_BUTTON);
+    } catch (error) {
+      console.error(error);
+    }
   }
 };
