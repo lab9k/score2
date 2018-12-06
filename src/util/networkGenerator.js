@@ -7,7 +7,7 @@ import forEach from 'lodash/forEach';
  *
  *
  * @export
- * @param {Array} data Array with nested data representing a network.
+ * @param {[{id:string|number,label:string}]} data Array with nested data representing a network.
  * Every object should already have the desired vis.js~Node properties/options.
  * @returns generateNetwork~generator
  */
