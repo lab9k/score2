@@ -9,13 +9,13 @@ export default {
   topic: ({ selected_topic }) => selected_topic.label,
   /**
    *
-   * @returns {string} wether demo can be enabled or disabled
+   * @returns {string} whether demo can be enabled or disabled
    */
   demoBtnText: ({ demo }) => (demo ? 'Disable Demo' : 'Enable Demo'),
   physics: ({ options: { physics } }) => physics,
   /**
    *
-   * @returns {string} wether physics can be enabled or disabled
+   * @returns {string} whether physics can be enabled or disabled
    */
   physicsText: ({
     options: {

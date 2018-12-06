@@ -1,5 +1,5 @@
-import { map, uniqBy, compact, filter, includes, flatMap } from 'lodash';
-import { challengeProto, keywordProto, cityProto, topicProto } from '../models';
+import {compact, filter, flatMap, includes, map, uniqBy} from 'lodash';
+import {challengeProto, cityProto, keywordProto, topicProto} from '../models';
 
 export const extractData = arr => {
   let count = 0;
@@ -11,7 +11,7 @@ export const extractData = arr => {
       gsx$title: { $t: title },
       gsx$topics: { $t: topics }
     } = entry;
-    const ret = {
+    return {
       city,
       description,
       title,
@@ -20,7 +20,6 @@ export const extractData = arr => {
       id: ++count,
       label: city
     };
-    return ret;
   });
 };
 

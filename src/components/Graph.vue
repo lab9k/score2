@@ -52,8 +52,8 @@
       </v-card>
     </v-dialog>
   </div>
-</template> 
- 
+</template>
+
 <script>
 import { mapState, mapGetters } from 'vuex';
 import { types } from '../store';
@@ -234,7 +234,7 @@ export default {
     }
   }
 };
-</script> 
+</script>
 
 <style>
 .explorerContainer {

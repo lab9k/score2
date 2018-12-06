@@ -61,7 +61,6 @@ export default new Vuex.Store({
             enabled: true,
             scaleFactor: 0.5
           },
-          arrowStrikethrough: false
         }
       }
     },
@@ -72,6 +71,6 @@ export default new Vuex.Store({
   },
   mutations,
   actions,
-  getters
+  getters,
 });
 export { default as types } from './types';

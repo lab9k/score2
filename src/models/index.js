@@ -3,7 +3,7 @@
  * commonProto is a set of options inherited by all.
  */
 const commonProto = {
-  mass: 3,
+  mass: 1,
   fixed: false,
   clickable: true
 };
