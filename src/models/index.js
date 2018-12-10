@@ -39,29 +39,21 @@ export const legendNodes = [
   {
     ...cityProto,
     ...legendProto,
-    x: 25,
-    y: 0,
     label: 'city'
   },
   {
     ...keywordProto,
     ...legendProto,
-    x: 25,
-    y: 50,
     label: 'keyword'
   },
   {
     ...challengeProto,
     ...legendProto,
-    x: 25,
-    y: 100,
     label: 'challenge'
   },
   {
     ...topicProto,
     ...legendProto,
-    x: 25,
-    y: 150,
     label: 'topic'
   }
 ];

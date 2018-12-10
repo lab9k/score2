@@ -16,7 +16,9 @@ export default new Vuex.Store({
       autoResize: true,
       height: '100%',
       width: '100%',
-      layout: { improvedLayout: false },
+      layout: {
+        improvedLayout: false
+      },
       physics: {
         enabled: true,
         stabilization: {
@@ -60,7 +62,7 @@ export default new Vuex.Store({
           to: {
             enabled: true,
             scaleFactor: 0.5
-          },
+          }
         }
       }
     },
@@ -71,6 +73,6 @@ export default new Vuex.Store({
   },
   mutations,
   actions,
-  getters,
+  getters
 });
 export { default as types } from './types';

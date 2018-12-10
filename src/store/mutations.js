@@ -5,9 +5,10 @@ import {
   getCityToChallengeToKeyword
 } from '../util';
 import { DataSet } from 'vis';
+import { types } from '.';
 
 export default {
-  mutate_raw_data(state, { feed }) {
+  [types.MUTATE_RAW_DATA](state, { feed }) {
     const raw_data = extractData(feed);
     state.raw_data = raw_data;
 
@@ -17,7 +18,7 @@ export default {
       edges: new DataSet(graph.edges)
     };
   },
-  handle_click(state, clickedNode) {
+  [types.HANDLE_CLICK](state, clickedNode) {
     if (clickedNode) {
       state.reloadBtnText = 'back';
       const selected_topic = { ...clickedNode };
@@ -33,13 +34,13 @@ export default {
       };
     }
   },
-  reset_button(state) {
+  [types.RESET_BUTTON](state) {
     state.reloadBtnText = 'reload';
   },
-  swap_demo_mode(state) {
+  [types.SWAP_DEMO](state) {
     state.demo = !state.demo;
   },
-  swap_physics({ options }) {
+  [types.SWAP_PHYSICS]({ options }) {
     options.physics.enabled = !options.physics.enabled;
   }
 };
