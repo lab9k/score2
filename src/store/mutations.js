@@ -5,7 +5,7 @@ import {
   getCityToChallengeToKeyword
 } from '../util';
 import { DataSet } from 'vis';
-import { types } from '.';
+import types from './types';
 
 export default {
   [types.MUTATE_RAW_DATA](state, { feed }) {
