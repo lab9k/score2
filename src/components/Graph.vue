@@ -19,17 +19,23 @@
         id="reloadBtn"
         color="warning"
         @click="reload"
-      >{{ reloadBtnText }}</v-btn>
+      >
+        {{ reloadBtnText }}
+      </v-btn>
       <v-btn
         id="demoBtn"
         color="primary"
         @click="enableDemo"
-      >{{ demoBtnText }}</v-btn>
+      >
+        {{ demoBtnText }}
+      </v-btn>
       <v-btn
         id="physicsBtn"
         color="secondary"
         @click="swapPhysics"
-      >{{ physicsText }}</v-btn>
+      >
+        {{ physicsText }}
+      </v-btn>
     </div>
 
     <v-dialog
@@ -42,7 +48,8 @@
         color="primary"
         dark
       >
-        <v-card-text>Please stand by
+        <v-card-text>
+          Please stand by
           <v-progress-linear
             class="mb-0"
             color="white"

@@ -7,9 +7,9 @@ export const extractData = arr => {
     const {
       gsx$city: { $t: city },
       gsx$description: { $t: description },
-      gsx$keywords: { $t: keywords },
+      gsx$topicsauto: { $t: keywords },
       gsx$title: { $t: title },
-      gsx$topics: { $t: topics }
+      gsx$clustersauto: { $t: topics }
     } = entry;
     return {
       city,

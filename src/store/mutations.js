@@ -9,6 +9,7 @@ import types from './types';
 
 export default {
   [types.MUTATE_RAW_DATA](state, { feed }) {
+    state.feed = feed;
     const raw_data = extractData(feed);
     state.raw_data = raw_data;
 
