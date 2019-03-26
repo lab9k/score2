@@ -44,7 +44,7 @@ export const legendNodes = [
   {
     ...keywordProto,
     ...legendProto,
-    label: 'keyword'
+    label: 'topic'
   },
   {
     ...challengeProto,
@@ -54,7 +54,7 @@ export const legendNodes = [
   {
     ...topicProto,
     ...legendProto,
-    label: 'topic'
+    label: 'cluster'
   }
 ];
 
