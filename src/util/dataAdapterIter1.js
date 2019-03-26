@@ -63,7 +63,6 @@ export const getCityToTopic = challenges => {
   return map(cities, city => {
     const cityChallenges = filter(challenges, c => c.city === city);
     const cityTopics = flatMap(cityChallenges, cch => cch.topics);
-    console.log(clusterProto);
     return {
       ...cityProto,
       label: city,
