@@ -42,9 +42,9 @@ export const legendNodes = [
     label: 'city'
   },
   {
-    ...topicProto,
+    ...clusterProto,
     ...legendProto,
-    label: 'topic'
+    label: 'cluster'
   },
   {
     ...challengeProto,
@@ -52,9 +52,9 @@ export const legendNodes = [
     label: 'challenge'
   },
   {
-    ...clusterProto,
+    ...topicProto,
     ...legendProto,
-    label: 'cluster'
+    label: 'topic'
   }
 ];
 
