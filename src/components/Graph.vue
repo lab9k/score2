@@ -160,7 +160,7 @@ export default {
           id = props.nodes[0];
           node = this.network.body.data.nodes
             .map(c => c)
-            .find(e => e.id === id && e.group === 'topics');
+            .find(e => e.id === id && e.group === 'clusters');
           this.dialog = true;
           this.$store.commit(types.HANDLE_CLICK, node);
 
