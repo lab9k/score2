@@ -23,6 +23,7 @@
         {{ reloadBtnText }}
       </v-btn>
       <v-btn
+        v-if="displayDemo"
         id="demoBtn"
         color="primary"
         @click="enableDemo"
@@ -95,7 +96,8 @@ export default {
       ],
       network: null,
       dialog: false,
-      timeout: null
+      timeout: null,
+      displayDemo: false
     };
   },
   computed: {
@@ -138,6 +140,11 @@ export default {
     this.dialog = true;
     this.$store.state.topic = '';
     this.$store.dispatch(types.FETCH_SPREADSHEET_DATA);
+    let uri = window.location.search.substring(1);
+    let params = new URLSearchParams(uri);
+    if (params.get('demo')) {
+      this.displayDemo = true;
+    }
   },
   methods: {
     reload() {
