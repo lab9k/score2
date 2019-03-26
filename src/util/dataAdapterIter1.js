@@ -1,5 +1,5 @@
 import {compact, filter, flatMap, includes, map, uniqBy} from 'lodash';
-import {challengeProto, cityProto, keywordProto, topicProto} from '../models';
+import {challengeProto, cityProto, topicProto, clusterProto} from '../models';
 
 export const extractData = arr => {
   let count = 0;
@@ -44,7 +44,7 @@ export const getCityToChallengeToKeyword = (challenges, topic) => {
           label: ch.title,
           id: ++counter,
           keywords: map(ch.keywords, kw => ({
-            ...keywordProto,
+            ...topicProto,
             label: kw,
             id: ++counter
           }))
@@ -68,7 +68,7 @@ export const getCityToTopic = challenges => {
       label: city,
       id: ++counter,
       topics: map(cityTopics, topic => ({
-        ...topicProto,
+        ...clusterProto,
         label: topic,
         id: ++counter
       }))

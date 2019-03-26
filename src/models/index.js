@@ -13,9 +13,9 @@ export const cityProto = {
   group: 'city'
 };
 
-export const keywordProto = {
+export const topicProto = {
   ...commonProto,
-  group: 'keywords'
+  group: 'topics'
 };
 
 export const challengeProto = {
@@ -23,9 +23,9 @@ export const challengeProto = {
   group: 'challenge'
 };
 
-export const topicProto = {
+export const clusterProto = {
   ...commonProto,
-  group: 'topics'
+  group: 'clusters'
 };
 
 export const legendProto = {
@@ -42,7 +42,7 @@ export const legendNodes = [
     label: 'city'
   },
   {
-    ...keywordProto,
+    ...topicProto,
     ...legendProto,
     label: 'topic'
   },
@@ -52,7 +52,7 @@ export const legendNodes = [
     label: 'challenge'
   },
   {
-    ...topicProto,
+    ...clusterProto,
     ...legendProto,
     label: 'cluster'
   }
@@ -60,10 +60,10 @@ export const legendNodes = [
 
 export default function getProto(type) {
   switch (type) {
+    case 'clusters':
+      return clusterProto;
     case 'topics':
       return topicProto;
-    case 'keywords':
-      return keywordProto;
     case 'challenge':
       return challengeProto;
     case 'city':
