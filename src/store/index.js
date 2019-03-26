@@ -35,14 +35,14 @@ export default new Vuex.Store({
           },
           shape: 'hexagon'
         },
-        topics: {
+        clusters: {
           color: 'rgba(252, 60, 60, 1)',
           font: {
             size: 18
           },
           shape: 'hexagon'
         },
-        keywords: {
+        topics: {
           color: 'rgba(0, 173, 181, 1)',
           font: {
             size: 18
