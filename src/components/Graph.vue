@@ -6,7 +6,7 @@
       id="cluster"
     >
       <h3 class="text-xs-center">
-        Current cluster:
+        You are watching everything within the Cluster:
         <span>{{ cluster }}</span>
       </h3>
     </div>
