@@ -6,7 +6,7 @@ export default {
   reloadBtnText: ({ reloadBtnText }) => reloadBtnText,
   cities: ({ cities }) => cities,
   selected_cities: ({ selected_cities }) => selected_cities,
-  topic: ({ selected_topic }) => selected_topic.label,
+  cluster: ({ selected_cluster }) => selected_cluster.label,
   /**
    *
    * @returns {string} whether demo can be enabled or disabled

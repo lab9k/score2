@@ -2,12 +2,12 @@
   <div class="explorerContainer">
     <!-- <CitySelection /> -->
     <div
-      v-if="topic"
-      id="topic"
+      v-if="cluster"
+      id="cluster"
     >
       <h3 class="text-xs-center">
-        Current topic:
-        <span>{{ topic }}</span>
+        Current cluster:
+        <span>{{ cluster }}</span>
       </h3>
     </div>
     <div
@@ -106,7 +106,7 @@ export default {
       'get_network',
       'get_options',
       'reloadBtnText',
-      'topic',
+      'cluster',
       'demoBtnText',
       'physics',
       'physicsText'
@@ -153,7 +153,7 @@ export default {
         clearTimeout(this.timeout);
         this.$store.commit(types.SWAP_DEMO);
       }
-      this.$store.state.selected_topic = {};
+      this.$store.state.selected_cluster = {};
       this.$store.dispatch(types.FETCH_SPREADSHEET_DATA);
     },
     swapPhysics() {
@@ -265,7 +265,7 @@ export default {
   width: 100%;
   height: 90%;
 }
-#topic {
+#cluster {
   height: 5%;
 }
 #btns {

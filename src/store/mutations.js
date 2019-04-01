@@ -22,11 +22,11 @@ export default {
   [types.HANDLE_CLICK](state, clickedNode) {
     if (clickedNode) {
       state.reloadBtnText = 'back';
-      const selected_topic = { ...clickedNode };
-      state.selected_topic = selected_topic;
+      const selected_cluster = { ...clickedNode };
+      state.selected_cluster = selected_cluster;
 
       const { graph } = generateNetwork(
-        getCityToChallengeToKeyword(state.raw_data, selected_topic.label)
+        getCityToChallengeToKeyword(state.raw_data, selected_cluster.label)
       )('challenges')('keywords');
 
       state.graph = {

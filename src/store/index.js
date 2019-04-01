@@ -69,7 +69,7 @@ export default new Vuex.Store({
     raw_data: {},
     reloadBtnText: 'Reload',
     demo: false,
-    selected_topic: {}
+    selected_cluster: {}
   },
   mutations,
   actions,
