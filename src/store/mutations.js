@@ -28,10 +28,11 @@ export default {
       const { graph } = generateNetwork(
         getCityToChallengeToKeyword(state.raw_data, selected_cluster.label)
       )('challenges')('keywords');
-
+      const nodes = new DataSet(graph.nodes);
+      const edges = new DataSet(graph.edges);
       state.graph = {
-        nodes: new DataSet(graph.nodes),
-        edges: new DataSet(graph.edges)
+        nodes,
+        edges
       };
     }
   },

@@ -128,8 +128,18 @@ export default {
       });
 
       newGraph.nodes.add(legend_positioned);
-
       this.network = new Network(container, newGraph, this.get_options);
+
+      newGraph.nodes.forEach(({ id: nodeId, size }) => {
+        const amountOfEdgesForNode = this.network.getConnectedEdges(nodeId)
+          .length;
+        const newSize = size + amountOfEdgesForNode * 1.5;
+        newGraph.nodes.update({
+          id: nodeId,
+          size: newSize
+        });
+      });
+
       this.events.forEach(ev =>
         this.network.on(ev, props => this.handle_event(ev, props))
       );
