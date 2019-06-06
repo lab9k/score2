@@ -29,7 +29,7 @@ export default new Vuex.Store({
       },
       groups: {
         city: {
-          color: 'rgba(57,62,70,1)',
+          color: 'rgba(43, 222, 200, 1)',
           font: {
             size: 18
           },
@@ -43,7 +43,7 @@ export default new Vuex.Store({
           shape: 'hexagon'
         },
         topics: {
-          color: 'rgba(0, 173, 181, 1)',
+          color: 'rgba(56, 235, 18, 1)',
           font: {
             size: 18
           },

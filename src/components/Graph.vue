@@ -134,7 +134,7 @@ export default {
         if (group !== 'city') {
           const amountOfEdgesForNode = this.network.getConnectedEdges(nodeId)
             .length;
-          const newSize = size + amountOfEdgesForNode * 1.5;
+          const newSize = size + amountOfEdgesForNode * 2;
           newGraph.nodes.update({
             id: nodeId,
             size: newSize
