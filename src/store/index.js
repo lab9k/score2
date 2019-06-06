@@ -43,7 +43,7 @@ export default new Vuex.Store({
           shape: 'hexagon'
         },
         topics: {
-          color: 'rgba(56, 235, 18, 1)',
+          color: 'rgba(174, 25, 255, 1)',
           font: {
             size: 18
           },
