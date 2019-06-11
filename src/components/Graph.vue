@@ -316,6 +316,7 @@ export default {
   background-color: #fefefe;
   width: 100%;
   flex-grow: 1;
+  max-height: 90%;
 }
 /* #cluster {
   height: 5%;

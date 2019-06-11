@@ -14,7 +14,8 @@ export default new Vuex.Store({
     },
     options: {
       autoResize: true,
-
+      height: '100%',
+      width: '100%',
       layout: {
         improvedLayout: false
       },
