@@ -3,7 +3,7 @@
  * commonProto is a set of options inherited by all.
  */
 const commonProto = {
-  mass: 3,
+  mass: 5,
   fixed: false,
   clickable: true,
   size: 25
@@ -11,7 +11,8 @@ const commonProto = {
 
 export const cityProto = {
   ...commonProto,
-  group: 'city'
+  group: 'city',
+  mass: 10
 };
 
 export const topicProto = {

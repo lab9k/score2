@@ -50,8 +50,9 @@
         dark
       >
         <v-card-text>
-          Please stand by
+          {{ dialogText }}
           <v-progress-linear
+            v-if="dialogText === 'Please stand by'"
             class="mb-0"
             color="white"
             indeterminate
@@ -97,7 +98,9 @@ export default {
       network: null,
       dialog: false,
       timeout: null,
-      displayDemo: false
+      displayDemo: false,
+      dialogText: 'Please stand by',
+      selectedId: null
     };
   },
   computed: {
@@ -118,7 +121,7 @@ export default {
         this.network.destroy();
       }
       const container = this.$refs.graph;
-      const x = -container.clientWidth / 2 - 75;
+      const x = -container.clientWidth / 2 - 100;
       let y = -container.clientHeight / 2 - 75;
       const legend_positioned = legendNodes.map(n => {
         const { font: f } = n;
@@ -151,7 +154,10 @@ export default {
   mounted() {
     this.dialog = true;
     this.$store.state.topic = '';
-    this.$store.dispatch(types.FETCH_SPREADSHEET_DATA);
+    this.$store.dispatch(types.FETCH_SPREADSHEET_DATA).catch(err => {
+      this.dialogText = 'Error fetching data. Please reload the page.';
+      console.error(err);
+    });
     let uri = window.location.search.substring(1);
     let params = new URLSearchParams(uri);
     if (params.get('demo')) {
@@ -166,7 +172,10 @@ export default {
         this.$store.commit(types.SWAP_DEMO);
       }
       this.$store.state.selected_cluster = {};
-      this.$store.dispatch(types.FETCH_SPREADSHEET_DATA);
+      this.$store.dispatch(types.FETCH_SPREADSHEET_DATA).catch(err => {
+        this.dialogText = 'Error fetching data. Please reload the page.';
+        console.error(err);
+      });
     },
     swapPhysics() {
       this.$store.commit(types.SWAP_PHYSICS);
@@ -176,36 +185,26 @@ export default {
       let id, node, connectedNodes, connectedEdges;
       switch (ev) {
         case 'doubleClick':
-          id = props.nodes[0];
+          id = this.selectedId;
           node = this.network.body.data.nodes
             .map(c => c)
             .find(e => e.id === id && e.group === 'clusters');
-          this.dialog = true;
-          this.$store.commit(types.HANDLE_CLICK, node);
-
+          if (node && node.group === 'clusters') {
+            this.dialog = true;
+            this.$store.commit(types.HANDLE_CLICK, node);
+          }
           if (this.demo) {
             clearTimeout(this.timeout);
             this.$store.commit(types.SWAP_DEMO);
           }
           break;
         case 'selectNode':
+          // this.network.unselectAll();
           id = props.nodes[0];
           node = this.network.body.data.nodes
             .map(c => c)
             .find(e => e.id === id);
 
-          connectedNodes = [
-            node.id,
-            ...this.network.getConnectedNodes(node.id)
-          ];
-          connectedEdges = this.network.getConnectedEdges(node.id);
-          this.network.setSelection(
-            {
-              nodes: connectedNodes,
-              edges: connectedEdges
-            },
-            { highlightEdges: false }
-          );
           //? current scale = Math.round(this.network.getScale()*10)/10
           if (this.demo) {
             clearTimeout(this.timeout);
@@ -228,6 +227,25 @@ export default {
               animation: { duration: 800, easingFunction: 'easeInCubic' },
               scale: 1.2
             });
+          } else if (props.nodes.length !== 0) {
+            this.network.unselectAll();
+            id = props.nodes[0];
+            this.selectedId = id;
+            node = this.network.body.data.nodes
+              .map(c => c)
+              .find(e => e.id === id);
+            connectedNodes = [
+              node.id,
+              ...this.network.getConnectedNodes(node.id)
+            ];
+            connectedEdges = this.network.getConnectedEdges(node.id);
+            this.network.setSelection(
+              {
+                nodes: connectedNodes,
+                edges: connectedEdges
+              },
+              { highlightEdges: false }
+            );
           }
           break;
         case 'afterDrawing':
