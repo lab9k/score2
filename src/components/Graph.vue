@@ -1,6 +1,11 @@
 <template>
   <div class="explorerContainer">
     <!-- <CitySelection /> -->
+    <img
+      id="legend"
+      src="../assets/legend.png"
+      alt="legend"
+    >
     <div
       v-if="cluster"
       id="cluster"
@@ -100,7 +105,8 @@ export default {
       timeout: null,
       displayDemo: false,
       dialogText: 'Please stand by',
-      selectedId: null
+      selectedId: null,
+      displayLegend: false
     };
   },
   computed: {
@@ -121,16 +127,19 @@ export default {
         this.network.destroy();
       }
       const container = this.$refs.graph;
-      const x = -container.clientWidth / 2 - 100;
-      let y = -container.clientHeight / 2 - 75;
-      const legend_positioned = legendNodes.map(n => {
-        const { font: f } = n;
-        const node = { ...n, x, y, font: { ...f } };
-        y += 100;
-        return node;
-      });
+      if (this.displayLegend) {
+        let x = -container.clientWidth;
+        let y = container.clientHeight - 100;
+        const legend_positioned = legendNodes.map(n => {
+          const { font: f } = n;
+          const node = { ...n, x, y, font: { ...f } };
+          x += 100;
+          return node;
+        });
 
-      newGraph.nodes.add(legend_positioned);
+        newGraph.nodes.add(legend_positioned);
+      }
+
       this.network = new Network(container, newGraph, this.get_options);
 
       newGraph.nodes.forEach(({ id: nodeId, size, group }) => {
@@ -306,17 +315,23 @@ export default {
 #graph {
   background-color: #fefefe;
   width: 100%;
-  height: 90%;
+  flex-grow: 1;
 }
-#cluster {
+/* #cluster {
   height: 5%;
-}
+} */
 #btns {
-  height: 5%;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   align-content: center;
   align-items: center;
+}
+#legend {
+  position: absolute;
+  width: 300px;
+  left: 0;
+  top: 0;
+  z-index: 1000;
 }
 </style>
