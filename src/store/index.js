@@ -29,28 +29,56 @@ export default new Vuex.Store({
       },
       groups: {
         city: {
-          color: 'rgba(43, 222, 200, 1)',
+          color: {
+            border: 'rgba(43, 222, 200, 0.7)',
+            background: 'rgba(43, 222, 200, 0.7)',
+            highlight: {
+              border: 'rgba(43, 222, 200, 1)',
+              background: 'rgba(43, 222, 200, 1)'
+            }
+          },
           font: {
             size: 18
           },
           shape: 'hexagon'
         },
         clusters: {
-          color: 'rgba(252, 60, 60, 1)',
+          color: {
+            border: 'rgba(252, 60, 60, 0.7)',
+            background: 'rgba(252, 60, 60, 0.7)',
+            highlight: {
+              border: 'rgba(252, 60, 60, 1)',
+              background: 'rgba(252, 60, 60, 1)'
+            }
+          },
           font: {
             size: 18
           },
           shape: 'hexagon'
         },
         topics: {
-          color: 'rgba(174, 25, 255, 1)',
+          color: {
+            border: 'rgba(174, 25, 255, 0.7)',
+            background: 'rgba(174, 25, 255, 0.7)',
+            highlight: {
+              border: 'rgba(174, 25, 255, 1)',
+              background: 'rgba(174, 25, 255, 1)'
+            }
+          },
           font: {
             size: 18
           },
           shape: 'hexagon'
         },
         challenge: {
-          color: 'rgba(248, 181, 0, 1)',
+          color: {
+            border: 'rgba(248, 181, 0, 0.7)',
+            background: 'rgba(248, 181, 0, 0.7)',
+            highlight: {
+              border: 'rgba(248, 181, 0, 1)',
+              background: 'rgba(248, 181, 0, 1)'
+            }
+          },
           font: {
             size: 18
           },
@@ -64,6 +92,12 @@ export default new Vuex.Store({
             scaleFactor: 0.5
           }
         }
+      },
+      nodes: {
+        font: { background: 'rgba(0, 0, 0, 0.1)' }
+      },
+      interaction: {
+        hover: false
       }
     },
     raw_data: {},

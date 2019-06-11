@@ -122,8 +122,8 @@ export default {
       let y = -container.clientHeight / 2 - 75;
       const legend_positioned = legendNodes.map(n => {
         const { font: f } = n;
-        const node = { ...n, x, y, font: { ...f, vadjust: -12 } };
-        y += 80;
+        const node = { ...n, x, y, font: { ...f } };
+        y += 100;
         return node;
       });
 
@@ -173,7 +173,7 @@ export default {
       this.network.setOptions({ physics: this.physics });
     },
     handle_event(ev, props) {
-      let id, node;
+      let id, node, connectedNodes, connectedEdges;
       switch (ev) {
         case 'doubleClick':
           id = props.nodes[0];
@@ -193,16 +193,29 @@ export default {
           node = this.network.body.data.nodes
             .map(c => c)
             .find(e => e.id === id);
+
+          connectedNodes = [
+            node.id,
+            ...this.network.getConnectedNodes(node.id)
+          ];
+          connectedEdges = this.network.getConnectedEdges(node.id);
+          this.network.setSelection(
+            {
+              nodes: connectedNodes,
+              edges: connectedEdges
+            },
+            { highlightEdges: false }
+          );
           //? current scale = Math.round(this.network.getScale()*10)/10
           if (this.demo) {
             clearTimeout(this.timeout);
             this.$store.commit(types.SWAP_DEMO);
           }
           if (node.clickable) {
-            this.network.focus(id, {
-              animation: { duration: 800, easingFunction: 'easeInCubic' },
-              scale: 1.2
-            });
+            // this.network.focus(id, {
+            //   animation: { duration: 800, easingFunction: 'easeInCubic' },
+            //   scale: 1.2
+            // });
           }
           break;
         case 'click':
