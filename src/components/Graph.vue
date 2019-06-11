@@ -139,6 +139,9 @@ export default {
 
         newGraph.nodes.add(legend_positioned);
       }
+      if (!this.physics.enabled) {
+        this.$store.commit(types.SWAP_PHYSICS);
+      }
 
       this.network = new Network(container, newGraph, this.get_options);
 
@@ -200,6 +203,9 @@ export default {
             .find(e => e.id === id && e.group === 'clusters');
           if (node && node.group === 'clusters') {
             this.dialog = true;
+            if (!this.physics.enabled) {
+              this.swapPhysics();
+            }
             this.$store.commit(types.HANDLE_CLICK, node);
           }
           if (this.demo) {
@@ -262,9 +268,9 @@ export default {
           break;
         case 'stabilizationIterationsDone':
           this.swapPhysics();
-          this.$nextTick(() => {
-            this.swapPhysics();
-          });
+          // this.$nextTick(() => {
+          //   this.swapPhysics();
+          // });
           break;
         default:
           return;

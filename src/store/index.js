@@ -23,7 +23,6 @@ export default new Vuex.Store({
         enabled: true,
         stabilization: {
           enabled: true,
-          iterations: 150,
           fit: true
         }
       },
