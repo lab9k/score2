@@ -32,7 +32,7 @@ export default new Vuex.Store({
             border: 'rgba(43, 222, 200, 0.7)',
             background: 'rgba(43, 222, 200, 0.7)',
             highlight: {
-              border: 'rgba(47, 184, 168, 1)',
+              border: 'rgba(30, 30, 30, 1)',
               background: 'rgba(43, 222, 200, 1)'
             }
           },
@@ -46,7 +46,7 @@ export default new Vuex.Store({
             border: 'rgba(252, 60, 60, 0.7)',
             background: 'rgba(252, 60, 60, 0.7)',
             highlight: {
-              border: 'rgba(252, 60, 60, 1)',
+              border: 'rgba(30, 30, 30, 1)',
               background: 'rgba(252, 60, 60, 1)'
             }
           },
@@ -60,7 +60,7 @@ export default new Vuex.Store({
             border: 'rgba(174, 25, 255, 0.7)',
             background: 'rgba(174, 25, 255, 0.7)',
             highlight: {
-              border: 'rgba(174, 25, 255, 1)',
+              border: 'rgba(30, 30, 30, 1)',
               background: 'rgba(174, 25, 255, 1)'
             }
           },
@@ -74,7 +74,7 @@ export default new Vuex.Store({
             border: 'rgba(248, 181, 0, 0.7)',
             background: 'rgba(248, 181, 0, 0.7)',
             highlight: {
-              border: 'rgba(248, 181, 0, 1)',
+              border: 'rgba(30, 30, 30, 1)',
               background: 'rgba(248, 181, 0, 1)'
             }
           },
@@ -85,11 +85,17 @@ export default new Vuex.Store({
         }
       },
       edges: {
+        length: 500,
         arrows: {
           to: {
             enabled: true,
             scaleFactor: 0.5
           }
+        },
+        smooth: {
+          type: 'cubicBezier',
+          roundness: 0.75,
+          forceDirection: true
         }
       },
       nodes: {
