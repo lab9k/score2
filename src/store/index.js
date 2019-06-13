@@ -32,7 +32,7 @@ export default new Vuex.Store({
             border: 'rgba(43, 222, 200, 0.7)',
             background: 'rgba(43, 222, 200, 0.7)',
             highlight: {
-              border: 'rgba(43, 222, 200, 1)',
+              border: 'rgba(47, 184, 168, 1)',
               background: 'rgba(43, 222, 200, 1)'
             }
           },
