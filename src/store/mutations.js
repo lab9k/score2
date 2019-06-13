@@ -44,5 +44,8 @@ export default {
   },
   [types.SWAP_PHYSICS]({ options }) {
     options.physics.enabled = !options.physics.enabled;
+  },
+  [types.MUTATE_EDGE_LENGTH]({ options }, value) {
+    options.edges.length = value;
   }
 };

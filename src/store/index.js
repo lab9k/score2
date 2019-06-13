@@ -22,8 +22,7 @@ export default new Vuex.Store({
       physics: {
         enabled: true,
         stabilization: {
-          enabled: true,
-          fit: true
+          enabled: true
         }
       },
       groups: {
@@ -74,6 +73,7 @@ export default new Vuex.Store({
       },
       edges: {
         length: 500,
+        width: 2,
         arrows: {
           to: {
             enabled: true,

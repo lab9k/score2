@@ -42,6 +42,15 @@
       >
         {{ physicsText }}
       </v-btn>
+      <v-slider
+        v-model="slider"
+        class="slider"
+        min="100"
+        max="500"
+        label="edge length"
+        inverse-label
+        thumb-label
+      />
     </div>
 
     <v-dialog
@@ -73,7 +82,7 @@ import { mapState, mapGetters } from 'vuex';
 import { types } from '../store';
 import { legendNodes } from '../models';
 import { Network } from 'vis';
-import { sample } from 'lodash';
+import { sample, throttle } from 'lodash';
 
 export default {
   name: 'Graph',
@@ -106,7 +115,8 @@ export default {
       displayDemo: false,
       dialogText: 'Please stand by',
       selectedId: null,
-      displayLegend: false
+      displayLegend: false,
+      sliderCurrentValue: 500
     };
   },
   computed: {
@@ -118,8 +128,18 @@ export default {
       'cluster',
       'demoBtnText',
       'physics',
-      'physicsText'
-    ])
+      'physicsText',
+      'sliderValue'
+    ]),
+    slider: {
+      get() {
+        return this.sliderValue;
+      },
+      set(value) {
+        this.sliderCurrentValue = value;
+        this.throttledLengthUpdate();
+      }
+    }
   },
   watch: {
     get_network: function(newGraph) {
@@ -177,6 +197,15 @@ export default {
     }
   },
   methods: {
+    throttledLengthUpdate: throttle(
+      function() {
+        this.$store.commit(types.MUTATE_EDGE_LENGTH, this.sliderCurrentValue);
+        this.network.setOptions(this.get_options);
+        this.network.stabilize();
+      },
+      200,
+      { leading: true }
+    ),
     reload() {
       this.dialog = true;
       if (this.demo) {
@@ -333,7 +362,9 @@ export default {
   justify-content: space-around;
   align-content: center;
   align-items: center;
+  width: 40%;
 }
+
 #legend {
   position: absolute;
   width: 300px;

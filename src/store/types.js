@@ -4,5 +4,6 @@ export default {
   HANDLE_CLICK: 'handle_click',
   RESET_BUTTON: 'reset_button',
   SWAP_DEMO: 'swap_demo_mode',
-  SWAP_PHYSICS: 'swap_physics'
+  SWAP_PHYSICS: 'swap_physics',
+  MUTATE_EDGE_LENGTH: 'edge_length'
 };

@@ -21,5 +21,10 @@ export default {
     options: {
       physics: { enabled }
     }
-  }) => (enabled ? 'Disable physics' : 'Enable physics')
+  }) => (enabled ? 'Disable physics' : 'Enable physics'),
+  sliderValue: ({
+    options: {
+      edges: { length: value }
+    }
+  }) => value
 };
