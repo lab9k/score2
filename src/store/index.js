@@ -36,9 +36,6 @@ export default new Vuex.Store({
               background: 'rgba(43, 222, 200, 1)'
             }
           },
-          font: {
-            size: 18
-          },
           shape: 'hexagon'
         },
         clusters: {
@@ -49,9 +46,6 @@ export default new Vuex.Store({
               border: 'rgba(30, 30, 30, 1)',
               background: 'rgba(252, 60, 60, 1)'
             }
-          },
-          font: {
-            size: 18
           },
           shape: 'hexagon'
         },
@@ -64,9 +58,6 @@ export default new Vuex.Store({
               background: 'rgba(174, 25, 255, 1)'
             }
           },
-          font: {
-            size: 18
-          },
           shape: 'hexagon'
         },
         challenge: {
@@ -77,9 +68,6 @@ export default new Vuex.Store({
               border: 'rgba(30, 30, 30, 1)',
               background: 'rgba(248, 181, 0, 1)'
             }
-          },
-          font: {
-            size: 18
           },
           shape: 'hexagon'
         }
@@ -99,7 +87,10 @@ export default new Vuex.Store({
         }
       },
       nodes: {
-        font: { background: 'rgba(0, 0, 0, 0.1)' }
+        font: {
+          background: 'rgba(0, 0, 0, 0.1)',
+          size: 24
+        }
       },
       interaction: {
         hover: false
