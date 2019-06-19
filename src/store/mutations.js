@@ -30,6 +30,8 @@ export default {
       )('challenges')('keywords');
       const nodes = new DataSet(graph.nodes);
       const edges = new DataSet(graph.edges);
+      state.options.edges.length = 200;
+      state.options.nodes.font.size = 32;
       state.graph = {
         nodes,
         edges
@@ -37,6 +39,8 @@ export default {
     }
   },
   [types.RESET_BUTTON](state) {
+    state.options.edges.length = 500;
+    state.options.nodes.font.size = 24;
     state.reloadBtnText = 'reload';
   },
   [types.SWAP_DEMO](state) {
