@@ -11,7 +11,7 @@ const commonProto = {
 export const cityProto = {
   ...commonProto,
   group: 'city',
-  mass: 4,
+  mass: 5,
 };
 
 export const topicProto = {
