@@ -107,7 +107,8 @@ export default {
         'selectNode',
         'click',
         'stabilizationIterationsDone',
-        'afterDrawing'
+        'afterDrawing',
+        'initRedraw'
       ],
       network: null,
       dialog: false,
@@ -301,9 +302,27 @@ export default {
           //   this.swapPhysics();
           // });
           break;
+        case 'initRedraw':
+          if (this.$store.state.selected_cluster.label) return;
+          this.createCityCircle();
+          break;
         default:
           return;
       }
+    },
+    createCityCircle() {
+      const ids = this.get_network.nodes.getIds({
+        filter(node) {
+          return node.group === 'city';
+        }
+      });
+      const radius = 250;
+      const d = (2 * Math.PI) / ids.length;
+      ids.forEach((id, i) => {
+        const x = radius * Math.cos(d * i);
+        const y = radius * Math.sin(d * i);
+        this.network.moveNode(id, x, y);
+      });
     },
     enableDemo() {
       if (this.demo) {
