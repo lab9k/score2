@@ -23,7 +23,8 @@ export default new Vuex.Store({
         enabled: true,
         stabilization: {
           enabled: true
-        }
+        },
+        repulsion: { nodeDistance: 50, centralGravity: 1 }
       },
       groups: {
         city: {

@@ -166,10 +166,10 @@ export default {
       this.network = new Network(container, newGraph, this.get_options);
 
       newGraph.nodes.forEach(({ id: nodeId, size, group }) => {
-        if (group !== 'city') {
+        if (group !== 'city' && group !== 'challenge') {
           const amountOfEdgesForNode = this.network.getConnectedEdges(nodeId)
             .length;
-          const newSize = size + amountOfEdgesForNode * 2;
+          const newSize = size + amountOfEdgesForNode * 6;
           newGraph.nodes.update({
             id: nodeId,
             size: newSize
