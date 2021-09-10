@@ -1,8 +1,8 @@
 import {
   generateNetwork,
-  extractData,
   getCityToTopic,
-  getCityToChallengeToKeyword
+  getCityToChallengeToKeyword,
+  extractData,
 } from '../util';
 import { DataSet } from 'vis';
 import types from './types';
@@ -11,12 +11,13 @@ export default {
   [types.MUTATE_RAW_DATA](state, { feed }) {
     state.feed = feed;
     const raw_data = extractData(feed);
+    console.log(raw_data);
     state.raw_data = raw_data;
 
     const { graph } = generateNetwork(getCityToTopic(raw_data))('topics');
     state.graph = {
       nodes: new DataSet(graph.nodes),
-      edges: new DataSet(graph.edges)
+      edges: new DataSet(graph.edges),
     };
   },
   [types.HANDLE_CLICK](state, clickedNode) {
@@ -34,7 +35,7 @@ export default {
       state.options.nodes.font.size = 32;
       state.graph = {
         nodes,
-        edges
+        edges,
       };
     }
   },
@@ -51,5 +52,5 @@ export default {
   },
   [types.MUTATE_EDGE_LENGTH]({ options }, value) {
     options.edges.length = value;
-  }
+  },
 };

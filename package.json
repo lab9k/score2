@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "lodash": "^4.17.14",
+    "public-google-sheets-parser": "^1.2.5",
     "vis": "^4.21.0",
     "vue": "^2.6.10",
     "vuetify": "^1.5.16",
